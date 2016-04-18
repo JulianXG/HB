@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">黑石顶常见鸟类</string>
+    <string name="introduction_title">介绍</string>
+    <string name="common_birds_list_title">常见鸟类</string>
+    <string name="index_title">检索</string>
+    <string name="about_title">关于</string>
+</resources>

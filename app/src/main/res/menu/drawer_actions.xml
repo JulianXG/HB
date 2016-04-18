@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/introduction_nav_menu_item"
+        android:icon="@drawable/ic_view_column_white_24dp"
+        android:title="@string/introduction_title"/>
+
+    <item
+        android:id="@+id/common_birds_list_nav_menu_item"
+        android:icon="@drawable/ic_book_white_24dp"
+        android:title="@string/common_birds_list_title"/>
+
+    <item
+        android:id="@+id/index_nav_menu_item"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/index_title"/>
+
+    <item
+        android:id="@+id/about_nav_menu_item"
+        android:icon="@drawable/ic_public_white_24dp"
+        android:title="@string/about_title"/>
+
+</menu>
