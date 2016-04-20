@@ -22,12 +22,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);//修改图标
-        getSupportActionBar().setHomeButtonEnabled(true);//决定图标是否可以点击
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 给左上角图标的左边加上一个返回的图标
-
         mDrawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
 
@@ -63,25 +57,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             /**
-            * 默认打开IntroductionFragment
+            * 默认打开CommonBirdsListFragment
             * */
 
-            ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(),IntroductionFragment.newInstance(),R.id.content);
+            ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(),CommonBirdsListFragment.newInstance(),R.id.content);
         }
     }
 
 
-    /*
-    * 添加toolbar左上角的点击功能
-    * */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
