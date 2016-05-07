@@ -11,12 +11,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+import java.util.Map;
+
 import njue.it.hb.R;
-import njue.it.hb.contract.CommonBirdsListContract;
+import njue.it.hb.contract.BirdsListContract;
 
-public class CommonBirdsListFragment extends Fragment implements CommonBirdsListContract.view {
+public class BirdsListFragment extends Fragment implements BirdsListContract.view {
 
-    private CommonBirdsListContract.presenter mPresenter;
+    private BirdsListContract.presenter mPresenter;
 
     private DrawerLayout mDrawerLayout;
 
@@ -36,13 +39,13 @@ public class CommonBirdsListFragment extends Fragment implements CommonBirdsList
         return root;
     }
 
-    public static CommonBirdsListFragment newInstance(){
-        return new CommonBirdsListFragment();
+    public static BirdsListFragment newInstance(){
+        return new BirdsListFragment();
     }
 
 
     @Override
-    public void setPresenter(CommonBirdsListContract.presenter presenter) {
+    public void setPresenter(BirdsListContract.presenter presenter) {
         mPresenter=presenter;
     }
 
@@ -58,5 +61,20 @@ public class CommonBirdsListFragment extends Fragment implements CommonBirdsList
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showBirdsOrderList(Map<String, List<String>> birdList) {
+
+    }
+
+    @Override
+    public void showBirdsPinyinList(Map<String, List<String>> birdList) {
+
+    }
+
+    @Override
+    public void showBirdDetail(Object birdData) {
+
     }
 }

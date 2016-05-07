@@ -3,10 +3,8 @@ package njue.it.hb.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import njue.it.hb.R;
@@ -40,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                             ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), IntroductionFragment.newInstance(),R.id.content);
                             break;
                         case R.id.common_birds_list_nav_menu_item:
-                            ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), CommonBirdsListFragment.newInstance(),R.id.content);
+                            ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), BirdsListFragment.newInstance(),R.id.content);
                             break;
                         case R.id.index_nav_menu_item:
                             ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), IndexFragment.newInstance(),R.id.content);
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             * 默认打开CommonBirdsListFragment
             * */
 
-            ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(),CommonBirdsListFragment.newInstance(),R.id.content);
+            ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), BirdsListFragment.newInstance(),R.id.content);
         }
     }
 
