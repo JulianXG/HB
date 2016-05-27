@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="njue.it.hb.model.BirdOrderListItem"/>
@@ -7,34 +8,52 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/order_list_item"
         android:orientation="horizontal"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/selector_bg_list_clickable"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="50dp">
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/order_list_avatar_loading"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:indicator="LineScale"
+            app:indicator_color="@android:color/darker_gray"/>
 
         <ImageView
             android:id="@+id/img_bird_avatar"
+            android:visibility="gone"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="5dp"
-            android:src="@{item.avatarPath}"/>
+            android:layout_margin="5dp"/>
 
         <LinearLayout
             android:orientation="vertical"
+            android:paddingLeft="8dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/text_bird_cn_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="@{item.cnName}"/>
 
             <TextView
                 android:id="@+id/text_bird_latin_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:textStyle="italic"
                 android:text="@{item.latinName}"/>
         </LinearLayout>
+
+        <include layout="@layout/divider"/>
     </LinearLayout>
 </layout>

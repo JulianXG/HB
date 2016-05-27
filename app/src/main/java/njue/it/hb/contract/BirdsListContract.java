@@ -5,6 +5,7 @@ import java.util.Map;
 
 import njue.it.hb.common.BasePresenter;
 import njue.it.hb.common.BaseView;
+import njue.it.hb.model.Bird;
 import njue.it.hb.model.BirdOrderListItem;
 
 public interface BirdsListContract {
@@ -24,7 +25,9 @@ public interface BirdsListContract {
         /**
          * 进入鸟类详情页
          */
-        void showBirdDetail(Object birdData);
+        void showBirdDetail(int id);
+
+
     }
 
 
@@ -43,7 +46,7 @@ public interface BirdsListContract {
         /**
          * 加载鸟类详情资料
          */
-        void loadBirdData(Long birdId);
+        void loadBirdData(String name);
     }
 
 

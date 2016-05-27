@@ -4,4 +4,18 @@
     <string name="common_birds_list_title">常见鸟类</string>
     <string name="index_title">检索</string>
     <string name="about_title">关于</string>
+
+    <!--LoadingDialog中的标题内容-->
+    <string name="title_loading_data">正在加载数据</string>
+    <string name="title_extracting_loading">解压数据</string>
+    <string name="title_loading_searching">正在搜索中</string>
+
+    <!--此为Toast内容-->
+    <string name="toast_extract_success">解压数据文件成功</string>
+    <string name="toast_extract_fail">解压数据文件失败，请确认压缩包文件的正确性</string>
+    <string name="toast_data_error">出错，请尝试更新数据包</string>
+    <string name="update_data_title">更新数据包</string>
+    <string name="radio_family_order">科类</string>
+    <string name="radio_pinyin">拼音</string>
+
 </resources>

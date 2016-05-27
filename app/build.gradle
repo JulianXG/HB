@@ -28,4 +28,10 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile "com.android.support:design:$rootProject.supportLibraryVersion"
 
+    //这是loading的库
+    compile 'com.wang.avi:library:1.0.5'
+    compile 'com.nineoldandroids:library:2.4.0'
+
+    //这是toolbar上的分页的库
+    compile 'info.hoang8f:android-segmented:1.0.6'
 }

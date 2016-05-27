@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="bird"
+            type="njue.it.hb.model.Bird"/>
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Gallery
+                    android:id="@+id/gallery"
+                    android:padding="5dp"
+                    android:spacing="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"/>
+
+
+                <include layout="@layout/divider"/>
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView
+                        style="@style/ListCaption"
+                        android:text="中文名："/>
+
+                    <TextView
+                        style="@style/ListContent"
+                        android:text="@{bird.name}"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView
+                        style="@style/ListCaption"
+                        android:text="拉丁名："/>
+
+                    <TextView
+                        style="@style/ListContent"
+                        android:text="@{bird.latinName}"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView
+                        style="@style/ListCaption"
+                        android:text="主色："/>
+
+                    <TextView
+                        style="@style/ListContent"
+                        android:text="@{bird.mainColor}"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView
+                        style="@style/ListCaption"
+                        android:text="次色："/>
+
+                    <TextView
+                        style="@style/ListContent"
+                        android:text="@{bird.secondaryColor}"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView
+                        style="@style/ListCaption"
+                        android:text="喙型："/>
+
+                    <TextView
+                        style="@style/ListContent"
+                        android:text="@{bird.beak}"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView
+                        style="@style/ListCaption"
+                        android:text="鸣声："/>
+
+                    <TextView
+                        style="@style/ListContent"
+                        android:text="@{bird.chirp}"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView
+                        style="@style/ListCaption"
+                        android:text="飞行："/>
+
+                    <TextView
+                        style="@style/ListContent"
+                        android:text="@{bird.flyDetail}"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView
+                        style="@style/ListCaption"
+                        android:text="尾型："/>
+
+                    <TextView
+                        style="@style/ListContent"
+                        android:text="@{bird.tail}"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView
+                        style="@style/ListCaption"
+                        android:text="食性："/>
+
+                    <TextView
+                        style="@style/ListContent"
+                        android:text="@{bird.feeding}"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView
+                        style="@style/ListCaption"
+                        android:text="特征："/>
+
+                    <TextView
+                        style="@style/ListContent"
+                        android:text="@{bird.fuzzyFeature}"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout style="@style/ListContainer">
+
+                    <TextView style="@style/ListCaption"
+                              android:text="鸟语图："/>
+
+                    <ImageView style="@style/ListContent"
+                               android:id="@+id/twitter_image"
+                        />
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/twitter_play"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/ic_play_arrow_black_48dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <SeekBar
+                            android:id="@+id/twitter_seek_bar"
+                            android:layout_gravity="center_vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="6"/>
+
+                        <TextView
+                            android:id="@+id/twitter_play_remaining_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="4"
+                            android:gravity="end|center_vertical"
+                            android:paddingRight="15dp"
+                            android:text="0:00"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <include layout="@layout/divider"/>
+
+                <LinearLayout
+                    android:id="@+id/twitter2"
+                    android:visibility="gone"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout style="@style/ListContainer">
+
+                        <TextView
+                            style="@style/ListCaption"
+                            android:text="语图2："/>
+
+                        <ImageView
+                            style="@style/ListContent"
+                            android:id="@+id/twitter2_image"/>
+                    </LinearLayout>
+
+                    <include layout="@layout/divider"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/twitter2_play"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/ic_play_arrow_black_48dp"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <SeekBar
+                                android:id="@+id/twitter2_seek_bar"
+                                android:layout_gravity="center_vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="6"/>
+
+                            <TextView
+                                android:id="@+id/twitter2_play_remaining_time"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="4"
+                                android:gravity="end|center_vertical"
+                                android:paddingRight="15dp"
+                                android:text="0:00"/>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+</layout>
