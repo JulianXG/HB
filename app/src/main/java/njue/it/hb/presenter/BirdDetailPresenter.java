@@ -10,7 +10,7 @@ import java.util.Locale;
 
 import njue.it.hb.common.GlobalConstant;
 import njue.it.hb.contract.BirdDetailContract;
-import njue.it.hb.data.source.BirdDataSource;
+import njue.it.hb.data.source.DatabaseDataSource;
 import njue.it.hb.model.Bird;
 
 public class BirdDetailPresenter implements BirdDetailContract.presenter {
@@ -19,7 +19,7 @@ public class BirdDetailPresenter implements BirdDetailContract.presenter {
 
     private BirdDetailContract.view mView;
 
-    private BirdDataSource mDataSource;
+    private DatabaseDataSource mDataSource;
 
     private Bird mBird;
 
@@ -29,7 +29,7 @@ public class BirdDetailPresenter implements BirdDetailContract.presenter {
 
     private MediaPlayer mPlayer2;
 
-    public BirdDetailPresenter(BirdDetailContract.view view, int id, BirdDataSource dataSource) {
+    public BirdDetailPresenter(BirdDetailContract.view view, int id, DatabaseDataSource dataSource) {
         mDataSource = dataSource;
         mView = view;
         this.id = id;

@@ -22,7 +22,7 @@ import java.util.List;
 import njue.it.hb.R;
 import njue.it.hb.common.GlobalConstant;
 import njue.it.hb.contract.BirdDetailContract;
-import njue.it.hb.data.repository.BirdRepository;
+import njue.it.hb.data.repository.DatabaseRepository;
 import njue.it.hb.databinding.ActivityBirdDetailDataBinding;
 import njue.it.hb.model.Bird;
 import njue.it.hb.presenter.BirdDetailPresenter;
@@ -47,8 +47,8 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bird_detail_data);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_bird_detail_data);
-        int id =  getIntent().getIntExtra(BirdsListFragment.KEY_INTENT_BIRD_ID,0);   //上一级传来的id
-        mPresenter = new BirdDetailPresenter(this, id, new BirdRepository());
+        int id =  getIntent().getIntExtra(GlobalConstant.KEY_INTENT_BIRD_ID,0);   //上一级传来的id
+        mPresenter = new BirdDetailPresenter(this, id, new DatabaseRepository());
         mLoadingDialog = new LoadingDialog(this, getString(R.string.title_loading_data));
 
         mPresenter.loadBirdDetail();

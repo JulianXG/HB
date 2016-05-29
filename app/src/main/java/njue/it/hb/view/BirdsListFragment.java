@@ -4,24 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.databinding.DataBindingUtil;
-import android.databinding.tool.expr.BracketExpr;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.RadioGroup;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,27 +24,24 @@ import java.util.Map;
 import njue.it.hb.R;
 import njue.it.hb.common.GlobalConstant;
 import njue.it.hb.contract.BirdsListContract;
-import njue.it.hb.data.repository.BirdRepository;
-import njue.it.hb.databinding.ExpandBirdsOrderListItemBinding;
-import njue.it.hb.databinding.ExpandBirdsOrderListParentItemBinding;
+import njue.it.hb.contract.ImageInThreadContract;
+import njue.it.hb.data.repository.DatabaseRepository;
+import njue.it.hb.databinding.ItemBirdsOrderBinding;
 import njue.it.hb.databinding.FragmentBirdsListBinding;
-import njue.it.hb.model.BirdOrderListItem;
+import njue.it.hb.databinding.ItemExpandOrderParentBinding;
+import njue.it.hb.model.BirdListItem;
 import njue.it.hb.presenter.BirdsListPresenter;
+import njue.it.hb.presenter.ImageInThreadPresenter;
 import njue.it.hb.util.ImageUtil;
 
 public class BirdsListFragment extends Fragment implements BirdsListContract.view,RadioGroup.OnCheckedChangeListener {
 
     private static final String TAG = "BirdsListFragment";
 
-    public static final String KEY_INTENT_BIRD_ID = "INTENT_BIRD";
-
     private BirdsListContract.presenter mPresenter;
 
     private ExpandableListView mBirdOrderListView;
 
-    /**
-     * 总Fragment的Binding
-     */
     private FragmentBirdsListBinding mBinding;
 
     @Nullable
@@ -57,7 +49,7 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_birds_list, container, false);
         //绑定Presenter
-        mPresenter = new BirdsListPresenter(new BirdRepository(),this);
+        mPresenter = new BirdsListPresenter(new DatabaseRepository(),this);
         mBinding = DataBindingUtil.bind(root);
         mBinding.radioGroup.setOnCheckedChangeListener(this);
 
@@ -82,7 +74,7 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
     }
 
     @Override
-    public void showBirdsOrderList(List<Map<String, List<BirdOrderListItem>>> birdList) {
+    public void showBirdsOrderList(List<Map<String, List<BirdListItem>>> birdList) {
         mBinding.birdsListContent.removeAllViews();
         BirdsOrderListAdapter birdsOrderListAdapter = new BirdsOrderListAdapter(birdList, getContext());
         mBirdOrderListView.setAdapter(birdsOrderListAdapter);
@@ -91,14 +83,14 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
     }
 
     @Override
-    public void showBirdsPinyinList(Map<String, List<String>> birdList) {
+    public void showBirdsPinyinList(List<BirdListItem> birdList) {
         mBinding.birdsListContent.removeAllViews();
     }
 
     @Override
     public void showBirdDetail(int id) {
         Intent intent = new Intent(getContext(),BirdDetailActivity.class);
-        intent.putExtra(KEY_INTENT_BIRD_ID, id);
+        intent.putExtra(GlobalConstant.KEY_INTENT_BIRD_ID, id);
         startActivity(intent);
     }
 
@@ -118,24 +110,24 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
 
         private Context mContext;
 
-        private List<Map<String ,List<BirdOrderListItem>>> birdsOrderList;
+        private List<Map<String ,List<BirdListItem>>> birdsOrderList;
 
-        private ExpandBirdsOrderListItemBinding mChildBinding;
+        private ItemBirdsOrderBinding mChildBinding;
 
-        private ExpandBirdsOrderListParentItemBinding mParentBinding;
+        private ItemExpandOrderParentBinding mParentBinding;
 
         /**
-         * 头像暂存内存的map，key值为gropuPosition*100+childPosition
+         * 头像暂存内存的map，key值为groupPosition*100+childPosition
          */
         private Map<Integer,Bitmap> avatars;
 
-        public BirdsOrderListAdapter(List<Map<String, List<BirdOrderListItem>>> birdsOrderList, Context context) {
+        public BirdsOrderListAdapter(List<Map<String, List<BirdListItem>>> birdsOrderList, Context context) {
             this.birdsOrderList = birdsOrderList;
             mContext = context;
             avatars = new HashMap<>();
         }
 
-        public void setData(List<Map<String, List<BirdOrderListItem>>> data) {
+        public void setData(List<Map<String, List<BirdListItem>>> data) {
             birdsOrderList = data;
         }
 
@@ -188,7 +180,7 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(mContext);
-                convertView = inflater.inflate(R.layout.expand_birds_order_list_parent_item, null);
+                convertView = inflater.inflate(R.layout.item_expand_order_parent, null);
             }
             mParentBinding = DataBindingUtil.bind(convertView);
             String family = (String) getGroup(groupPosition);
@@ -201,30 +193,30 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
         public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(mContext);
-                convertView = inflater.inflate(R.layout.expand_birds_order_list_item, null);
+                convertView = inflater.inflate(R.layout.item_birds_order, null);
             }
             mChildBinding = DataBindingUtil.bind(convertView);
-            final BirdOrderListItem item = (BirdOrderListItem) getChild(groupPosition, childPosition);
+            final BirdListItem item = (BirdListItem) getChild(groupPosition, childPosition);
             mChildBinding.setItem(item);
 
             //在此处添加监听器
             mChildBinding.orderListItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.loadBirdData(item.cnName.get());
+                    mPresenter.loadBirdDetail(item.cnName.get());
                 }
             });
 
             Bitmap avatar = avatars.get(groupPosition * 100 + childPosition);
+            AvatarView avatarView = new AvatarView(childPosition, groupPosition, mChildBinding);
             if (avatar == null) {
                 mChildBinding.imgBirdAvatar.setImageBitmap(null);
-                Handler handler = new LoadImageHandler(childPosition, groupPosition, mChildBinding);
+                Handler handler = new ImageInThreadPresenter(avatarView);
                 ImageUtil.getBitmapInThread(handler, GlobalConstant.HB_DATA_FILE_PATH + item.avatarPath.get(), 50, 50);
             }else {
-                showImage(mChildBinding, avatar);
+                avatarView.showImage(avatar);
             }
 
-//                mChildBinding.imgBirdAvatar.setImageBitmap(ImageUtil.getBitmap(GlobalConstant.HB_DATA_FILE_PATH + item.avatarPath.get(), 50, 50));
             return convertView;
         }
 
@@ -263,61 +255,43 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
             return 0;
         }
 
-        private void showLoadingImage(ExpandBirdsOrderListItemBinding childBinding) {
-            childBinding.orderListAvatarLoading.setVisibility(View.VISIBLE);
-            childBinding.imgBirdAvatar.setVisibility(View.GONE);
-        }
+        class AvatarView implements ImageInThreadContract.view {
 
-        private void showImage(ExpandBirdsOrderListItemBinding childBinding, Bitmap bitmap) {
-            childBinding.orderListAvatarLoading.setVisibility(View.GONE);
-            childBinding.imgBirdAvatar.setVisibility(View.VISIBLE);
-            childBinding.imgBirdAvatar.setImageBitmap(bitmap);
-        }
+            private ItemBirdsOrderBinding mBinding;
 
-        private void showLoadingImageError(ExpandBirdsOrderListItemBinding childBinding) {
-            childBinding.orderListAvatarLoading.setVisibility(View.GONE);
-            childBinding.imgBirdAvatar.setVisibility(View.VISIBLE);
-        }
+            private int groupPosition,childPosition;
 
-        class LoadImageHandler extends Handler {
-
-            private ExpandBirdsOrderListItemBinding mChildBinding;
-
-            private int groupPosition;
-
-            private int childPosition;
-
-            public LoadImageHandler(int childPosition, int groupPosition, ExpandBirdsOrderListItemBinding childBinding) {
+            public AvatarView(int childPosition, int groupPosition, ItemBirdsOrderBinding binding) {
                 this.childPosition = childPosition;
                 this.groupPosition = groupPosition;
-                mChildBinding = childBinding;
+                mBinding = binding;
             }
 
             @Override
-            public void handleMessage(Message msg) {
-                switch (msg.what) {
-                    case ImageUtil.START:
-                        showLoadingImage(mChildBinding);
-                        break;
-                    case ImageUtil.DECODING:
-                        showLoadingImage(mChildBinding);
-                        break;
-                    case ImageUtil.COMPLETE:
-                        Bundle bundle = msg.getData();
-                        Bitmap bitmap = (Bitmap) bundle.get(ImageUtil.KEY_BITMAP);
-                        showImage(mChildBinding,bitmap);
+            public void showLoadingImage() {
+                mBinding.orderListAvatarLoading.setVisibility(View.VISIBLE);
+                mBinding.imgBirdAvatar.setVisibility(View.GONE);
+            }
 
-                        avatars.put(groupPosition * 100 + childPosition, bitmap);
-                        break;
-                    case ImageUtil.ERROR:
-                        showLoadingImageError(mChildBinding);
-                        break;
-                }
+            @Override
+            public void showImage(Bitmap bitmap) {
+                mBinding.orderListAvatarLoading.setVisibility(View.GONE);
+                mBinding.imgBirdAvatar.setVisibility(View.VISIBLE);
+                mBinding.imgBirdAvatar.setImageBitmap(bitmap);
+            }
+
+            @Override
+            public void showLoadingImageError() {
+                mBinding.orderListAvatarLoading.setVisibility(View.GONE);
+                mBinding.imgBirdAvatar.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void saveImage(Bitmap bitmap) {
+                avatars.put(groupPosition * 100 + childPosition, bitmap);
             }
         }
 
     }
-
-
 
 }

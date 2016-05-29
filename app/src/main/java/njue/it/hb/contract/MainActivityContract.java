@@ -7,7 +7,7 @@ import njue.it.hb.common.BaseView;
 
 public interface MainActivityContract {
 
-    interface Presenter extends BasePresenter {
+    interface presenter extends BasePresenter {
 
         /**
          * 判断是否第一次运行，并继续执行对应逻辑
@@ -31,7 +31,7 @@ public interface MainActivityContract {
 
     }
 
-    interface View extends BaseView<Presenter> {
+    interface view extends BaseView<presenter> {
 
         /**
          * 显示正在解压界面

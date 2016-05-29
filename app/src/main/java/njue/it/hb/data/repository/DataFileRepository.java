@@ -18,8 +18,6 @@ public class DataFileRepository implements njue.it.hb.data.source.DataFileDataSo
 
     private static final String TAG = "DataFileRepository";
 
-    private Context mContext;
-
     private SharedPreferences mSharedPreferences;
 
     /**
@@ -39,8 +37,7 @@ public class DataFileRepository implements njue.it.hb.data.source.DataFileDataSo
 
 
     public DataFileRepository(Context context) {
-        mContext = context;
-        mSharedPreferences = mContext.getSharedPreferences(KEY_DATA_SP,Context.MODE_PRIVATE);
+        mSharedPreferences = context.getSharedPreferences(KEY_DATA_SP,Context.MODE_PRIVATE);
     }
 
     @Override

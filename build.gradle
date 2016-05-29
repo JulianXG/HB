@@ -23,5 +23,4 @@ task clean(type: Delete) {
 }
 
 ext{
-    supportLibraryVersion="23.3.0"
 }

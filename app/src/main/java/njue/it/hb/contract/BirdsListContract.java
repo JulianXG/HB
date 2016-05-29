@@ -5,8 +5,7 @@ import java.util.Map;
 
 import njue.it.hb.common.BasePresenter;
 import njue.it.hb.common.BaseView;
-import njue.it.hb.model.Bird;
-import njue.it.hb.model.BirdOrderListItem;
+import njue.it.hb.model.BirdListItem;
 
 public interface BirdsListContract {
 
@@ -15,12 +14,12 @@ public interface BirdsListContract {
         /**
          * 显示以科种排列的鸟种列表
          */
-        void showBirdsOrderList(List<Map<String, List<BirdOrderListItem>>> birdList);
+        void showBirdsOrderList(List<Map<String, List<BirdListItem>>> birdList);
 
         /**
          * 显示以拼音排序的鸟种列表
          */
-        void showBirdsPinyinList(Map<String, List<String>> birdList);
+        void showBirdsPinyinList(List<BirdListItem> birdList);
 
         /**
          * 进入鸟类详情页
@@ -46,7 +45,7 @@ public interface BirdsListContract {
         /**
          * 加载鸟类详情资料
          */
-        void loadBirdData(String name);
+        void loadBirdDetail(String name);
     }
 
 

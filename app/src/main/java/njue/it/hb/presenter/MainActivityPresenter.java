@@ -11,15 +11,15 @@ import njue.it.hb.contract.MainActivityContract;
 import njue.it.hb.data.source.DataFileDataSource;
 import njue.it.hb.util.ZipUtil;
 
-public class MainActivityPresenter implements MainActivityContract.Presenter {
+public class MainActivityPresenter implements MainActivityContract.presenter {
 
     private static final String TAG = "MainActivityPresenter";
 
     private DataFileDataSource mDataSource;
 
-    private MainActivityContract.View mView;
+    private MainActivityContract.view mView;
 
-    public MainActivityPresenter(DataFileDataSource dataSource, MainActivityContract.View view) {
+    public MainActivityPresenter(DataFileDataSource dataSource, MainActivityContract.view view) {
         mDataSource = dataSource;
         mView = view;
     }

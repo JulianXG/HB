@@ -2,7 +2,7 @@ package njue.it.hb.model;
 
 import android.databinding.ObservableField;
 
-public class BirdOrderListItem {
+public class BirdListItem {
 
     /**
      * 列表图片
@@ -19,4 +19,8 @@ public class BirdOrderListItem {
      */
     public ObservableField<String> latinName = new ObservableField<>();
 
+    /**
+     * 拼音首字母
+     */
+    public ObservableField<String> initialPinyin = new ObservableField<>();
 }

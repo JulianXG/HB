@@ -2,7 +2,7 @@ package njue.it.hb.presenter;
 
 import njue.it.hb.contract.IntroductionContract;
 
-public class IntroductionPresenter implements IntroductionContract.Presenter {
+public class IntroductionPresenter implements IntroductionContract.presenter {
 
 
 }

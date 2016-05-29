@@ -5,11 +5,11 @@ import njue.it.hb.common.BaseView;
 
 public interface IntroductionContract {
 
-    interface View extends BaseView<Presenter>{
+    interface view extends BaseView<presenter>{
 
     }
 
-    interface Presenter extends BasePresenter{
+    interface presenter extends BasePresenter{
 
     }
 }

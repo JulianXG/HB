@@ -5,10 +5,17 @@
     <string name="index_title">检索</string>
     <string name="about_title">关于</string>
 
+    <string name="tip_no_history">无搜索历史</string>
+
     <!--LoadingDialog中的标题内容-->
     <string name="title_loading_data">正在加载数据</string>
     <string name="title_extracting_loading">解压数据</string>
-    <string name="title_loading_searching">正在搜索中</string>
+
+    <!--caption中的内容-->
+    <string name="caption_loading_searching">正在搜索中</string>
+    <string name="caption_close_search">关闭搜索</string>
+    <string name="caption_search_history">搜索历史：</string>
+    <string name="caption_search_result">搜索结果：</string>
 
     <!--此为Toast内容-->
     <string name="toast_extract_success">解压数据文件成功</string>
@@ -17,5 +24,7 @@
     <string name="update_data_title">更新数据包</string>
     <string name="radio_family_order">科类</string>
     <string name="radio_pinyin">拼音</string>
+    <string name="hint_search">请输入关键词，进行模糊搜索</string>
+    <string name="tip_no_result">无搜索结果</string>
 
 </resources>

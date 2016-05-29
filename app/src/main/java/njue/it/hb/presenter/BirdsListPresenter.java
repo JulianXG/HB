@@ -4,16 +4,16 @@ import java.util.List;
 import java.util.Map;
 
 import njue.it.hb.contract.BirdsListContract;
-import njue.it.hb.data.source.BirdDataSource;
-import njue.it.hb.model.BirdOrderListItem;
+import njue.it.hb.data.source.DatabaseDataSource;
+import njue.it.hb.model.BirdListItem;
 
 public class BirdsListPresenter implements BirdsListContract.presenter {
 
     private BirdsListContract.view mView;
 
-    private BirdDataSource mDataSource;
+    private DatabaseDataSource mDataSource;
 
-    public BirdsListPresenter(BirdDataSource dataSource, BirdsListContract.view view) {
+    public BirdsListPresenter(DatabaseDataSource dataSource, BirdsListContract.view view) {
         mDataSource = dataSource;
         mView = view;
         mView.setPresenter(this);
@@ -21,7 +21,7 @@ public class BirdsListPresenter implements BirdsListContract.presenter {
 
     @Override
     public void loadBirdsOrderList() {
-        List<Map<String, List<BirdOrderListItem>>> list = mDataSource.getBirdsOrderList();
+        List<Map<String, List<BirdListItem>>> list = mDataSource.getBirdsOrderList();
         mView.showBirdsOrderList(list);
     }
 
@@ -31,7 +31,7 @@ public class BirdsListPresenter implements BirdsListContract.presenter {
     }
 
     @Override
-    public void loadBirdData(String name) {
+    public void loadBirdDetail(String name) {
         int id = mDataSource.getIdByChineseName(name);
         mView.showBirdDetail(id);
     }

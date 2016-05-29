@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -21,9 +20,9 @@ import njue.it.hb.presenter.MainActivityPresenter;
 import njue.it.hb.util.ActivityUtils;
 
 
-public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
+public class MainActivity extends AppCompatActivity implements MainActivityContract.view {
 
-    private MainActivityContract.Presenter mPresenter;
+    private MainActivityContract.presenter mPresenter;
 
     private ActivityMainBinding mBinding;
 
@@ -106,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     @Override
     public void showDefaultSection() {
         ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), BirdsListFragment.newInstance(),R.id.content);
+
+//        ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), IndexFragment.newInstance(),R.id.content);     //测试index
     }
 
     @Override
@@ -124,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     @Override
-    public void setPresenter(MainActivityContract.Presenter presenter) {
+    public void setPresenter(MainActivityContract.presenter presenter) {
         mPresenter = presenter;
     }
 
