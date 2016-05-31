@@ -5,23 +5,25 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import org.mozilla.universalchardet.prober.MBCSGroupProber;
+
 import java.io.File;
 
 import njue.it.hb.contract.MainActivityContract;
 import njue.it.hb.data.source.DataFileDataSource;
 import njue.it.hb.util.ZipUtil;
 
-public class MainActivityPresenter implements MainActivityContract.presenter {
+public class MainActivityPresenter implements MainActivityContract.Presenter {
 
     private static final String TAG = "MainActivityPresenter";
 
     private DataFileDataSource mDataSource;
 
-    private MainActivityContract.view mView;
+    private MainActivityContract.View mView;
 
-    public MainActivityPresenter(DataFileDataSource dataSource, MainActivityContract.view view) {
+    public MainActivityPresenter(DataFileDataSource dataSource, MainActivityContract.View View) {
         mDataSource = dataSource;
-        mView = view;
+        mView = View;
     }
 
     @Override
@@ -35,7 +37,8 @@ public class MainActivityPresenter implements MainActivityContract.presenter {
 
     @Override
     public void firstRun() {
-        mView.showSelectDataFile();
+        mView.showFirstRun();
+        commonRun();
     }
 
     @Override
@@ -48,6 +51,12 @@ public class MainActivityPresenter implements MainActivityContract.presenter {
         mView.showExtracting();
         ExtractHandler extractHandler = new ExtractHandler();
         mDataSource.extractWithProgressInThread(sourceFile,extractHandler);
+    }
+
+    @Override
+    public void selectDataError() {
+        mView.showSelectDataError();
+        mView.showSelectDataFile();
     }
 
     class ExtractHandler extends Handler {

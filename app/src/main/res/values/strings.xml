@@ -4,6 +4,7 @@
     <string name="common_birds_list_title">常见鸟类</string>
     <string name="index_title">检索</string>
     <string name="about_title">关于</string>
+    <string name="update_data_title">更新数据包</string>
 
     <string name="tip_no_history">无搜索历史</string>
 
@@ -21,10 +22,54 @@
     <string name="toast_extract_success">解压数据文件成功</string>
     <string name="toast_extract_fail">解压数据文件失败，请确认压缩包文件的正确性</string>
     <string name="toast_data_error">出错，请尝试更新数据包</string>
-    <string name="update_data_title">更新数据包</string>
+    <string name="toast_first_run">第一次运行，需要选择更新资源包，APP会自动解压数据</string>
+    <string name="toast_select_data_error">资源包有误，请更新资源包</string>
+
+
     <string name="radio_family_order">科类</string>
     <string name="radio_pinyin">拼音</string>
     <string name="hint_search">请输入关键词，进行模糊搜索</string>
+
+    <!--Tip中内容-->
     <string name="tip_no_result">无搜索结果</string>
+    <string name="tip_import_data_error">资源包没有正确导入，请更新资源包</string>
+
+    <!--工具栏标题-->
+    <string name="title_hb_basic_fact">黑石顶概况</string>
+    <string name="title_what_is_bird">什么是鸟类</string>
+    <string name="title_how_to_watch_bird">如何观鸟</string>
+    <string name="title_developer">制作人员</string>
+    <string name="title_twitter_process_method">语图处理方法</string>
+    <string name="title_thank">致谢</string>
+
+    <!--文本内容-->
+    <string name="hb_basic_fact">
+        　　黑石顶省级自然保护区位于广东省封开县中南部，因北回归线贯穿自然保护区中部而被誉为“北回归线上的绿洲”。保护区于1979年8月批准建立，总面积4200公顷。主要保护对象是热带、亚热带常绿阔叶林及国家二级珍稀濒危保护植物黑桫椤种群、封开蒲葵等特有种及其生境。
+    </string>
+    <string name="what_is_bird">
+        　　定义：包括所有现生和已经灭绝的鸟类(始祖鸟及其所有的后裔)。已知最早的代表出现在晚侏罗世。
+        \n　　应用学科：古生物学（一级学科）；古脊椎动物学与古人类学（二级学科）；鸟类（三级学科）
+        \n　　鸟类（BirdClass）\n
+        \n　　鸟类通常是带羽、卵生的动物，有极高的新陈代谢速率，长骨多是中空的，所以大部分的鸟类都可以飞。最早的鸟类大约出现在1.5亿年前。他们的身体呈纺锤形、前肢特化为翼，体表有羽毛，体温恒定，肌胸发达，骨骼愈合、薄、中空，脑比较发达。有气囊可以进行双重呼吸，没有膀胱则可以减少身体质量。这些身体特征都很适应飞翔。
+        \n　　鸟类通常是带羽毛、卵生的脊椎动物，有极高的新陈代谢速率，长骨多是中空的，所以大部分的鸟类都可以飞。鸟类最先出现在侏罗纪时期，爬虫类和鸟类的始祖究竟是什么生物，在古生物学家中仍很有争议。 　　最早的鸟类大约出现在2.2亿年前。他们的身体呈纺锤形、前肢特化为翼，体表有羽毛，体温恒定，肌胸发达，骨骼愈合、薄、中空，脑比较发达。有气囊可以进行双重呼吸，没有膀胱、直肠不能储存粪便则可以减少身体重量。这些身体特征都很适应飞翔。
+    </string>
+    <string name="how_to_watch_bird">
+        　　望远镜初次使用：先闭上右眼，调节中间那个大的旋钮直到图像清晰，然后睁开右眼，调节那个小的旋钮，直到图像清晰。
+        \n　　找鸟：先用肉眼观察，寻找到一个大致的位置以后，再用望远镜作进一步的观察，通过声音辨方向也是很好的办法。
+        \n　　调焦：越近的鸟越把粗旋钮顺时针转动，反之逆时针转动，如果实在太远，就必须使用单筒望远镜。
+        \n　　记录：通过图鉴以及自己的经验辨种，并在专门的记录本上记录鸟种名字、数量，特殊的可以记录生境。
+        \n　　整理：回来以后把数据传到类似于中国观鸟记录中心等网站，把你的记录与他人分享。
+    </string>
+
+    <string name="developers">肖刚：xiaogangla@qq.com\n张煊威：1120544046@qq.com</string>
+    <string name="twitter_process_method">
+
+    </string>
+    <string name="thank">
+        感谢　肖刚、张煊威　提供技术支持
+        \n同时也感谢黑石顶自然保护区提供的帮助
+    </string>
+    <string name="version">v1.0.0</string>
+
 
 </resources>

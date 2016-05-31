@@ -8,4 +8,5 @@
     <color name="divider_color">#d6d6d6</color>
     <color name="app_background">@color/content_color</color>
     <color name="pressed_color">#f3f3f3</color>
+    <color name="test">#4F41FD</color>
 </resources>

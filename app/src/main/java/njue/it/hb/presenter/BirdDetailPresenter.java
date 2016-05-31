@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import njue.it.hb.common.GlobalConstant;
@@ -13,11 +15,11 @@ import njue.it.hb.contract.BirdDetailContract;
 import njue.it.hb.data.source.DatabaseDataSource;
 import njue.it.hb.model.Bird;
 
-public class BirdDetailPresenter implements BirdDetailContract.presenter {
+public class BirdDetailPresenter implements BirdDetailContract.Presenter {
 
     private static final String TAG = "BirdDetailPresenter";
 
-    private BirdDetailContract.view mView;
+    private BirdDetailContract.View mView;
 
     private DatabaseDataSource mDataSource;
 
@@ -29,9 +31,9 @@ public class BirdDetailPresenter implements BirdDetailContract.presenter {
 
     private MediaPlayer mPlayer2;
 
-    public BirdDetailPresenter(BirdDetailContract.view view, int id, DatabaseDataSource dataSource) {
+    public BirdDetailPresenter(BirdDetailContract.View View, int id, DatabaseDataSource dataSource) {
         mDataSource = dataSource;
-        mView = view;
+        mView = View;
         this.id = id;
         mView.setPresenter(this);
     }
@@ -103,6 +105,25 @@ public class BirdDetailPresenter implements BirdDetailContract.presenter {
     @Override
     public boolean isTwitter2Playing() {
         return mPlayer2 != null && mPlayer2.isPlaying();
+    }
+
+    @Override
+    public void loadBirdHDOriginalImages() {
+        mView.showHDOriginalPicture(mBird.imagePaths);
+    }
+
+    @Override
+    public void loadTwitterHDOriginalImage() {
+        List<String> list = new ArrayList<>();
+        list.add(mBird.twitterImagePath.get(0));
+        mView.showHDOriginalPicture(list);
+    }
+
+    @Override
+    public void loadTwitter2HDOriginalImage() {
+        List<String> list = new ArrayList<>();
+        list.add(mBird.twitterImagePath.get(1));
+        mView.showHDOriginalPicture(list);
     }
 
     class LoadBirdByIdTask extends AsyncTask<Integer,Void,Void> {

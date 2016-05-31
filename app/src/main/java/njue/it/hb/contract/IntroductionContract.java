@@ -5,11 +5,25 @@ import njue.it.hb.common.BaseView;
 
 public interface IntroductionContract {
 
-    interface view extends BaseView<presenter>{
+    interface View extends BaseView<Presenter>{
 
+        /**
+         * 显示黑石顶介绍界面
+         */
+        void showHBIntroduction();
+
+        /**
+         * 显示什么是鸟类界面
+         */
+        void showWhatIsBird();
+
+        /**
+         * 显示怎么观鸟
+         */
+        void showHowToWatchBird();
     }
 
-    interface presenter extends BasePresenter{
+    interface Presenter extends BasePresenter{
 
     }
 }

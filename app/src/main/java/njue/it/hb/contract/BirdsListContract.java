@@ -9,7 +9,7 @@ import njue.it.hb.model.BirdListItem;
 
 public interface BirdsListContract {
 
-    interface view extends BaseView<presenter> {
+    interface View extends BaseView<Presenter> {
 
         /**
          * 显示以科种排列的鸟种列表
@@ -26,11 +26,14 @@ public interface BirdsListContract {
          */
         void showBirdDetail(int id);
 
+        /**
+         * 显示没有正确导入资源包
+         */
+        void showImportDataError();
 
     }
 
-
-    interface presenter extends BasePresenter {
+    interface Presenter extends BasePresenter {
 
         /**
          * 加载鸟类科种排序列表
@@ -46,6 +49,7 @@ public interface BirdsListContract {
          * 加载鸟类详情资料
          */
         void loadBirdDetail(String name);
+
     }
 
 

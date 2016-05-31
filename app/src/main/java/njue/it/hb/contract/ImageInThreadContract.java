@@ -8,14 +8,14 @@ public interface ImageInThreadContract {
     /**
      * 此Handler是为了处理与view线程的通信
      */
-    class handler extends Handler {
+    class Handler extends android.os.Handler {
 
     }
 
     /**
      * 这个类似与工具类，在主线程运行，
      */
-    interface view {
+    interface View {
 
         /**
          * 显示正在加载图片界面

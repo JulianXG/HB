@@ -17,9 +17,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +36,9 @@ import njue.it.hb.presenter.ImageInThreadPresenter;
 import njue.it.hb.presenter.IndexPresenter;
 import njue.it.hb.util.ImageUtil;
 
-public class IndexFragment extends Fragment implements IndexContract.view {
+public class IndexFragment extends Fragment implements IndexContract.View {
 
-    private IndexContract.presenter mPresenter;
+    private IndexContract.Presenter mPresenter;
 
     private FragmentIndexBinding mBinding;
 
@@ -48,12 +48,10 @@ public class IndexFragment extends Fragment implements IndexContract.view {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_index, container, false);
+    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        android.view.View root = inflater.inflate(R.layout.fragment_index, container, false);
         mBinding = DataBindingUtil.bind(root);
         mAdapter = new ListAdapter(getContext(), null);
-        mPresenter = new IndexPresenter(new IndexRepository(), this);
-
         //为了保证onOptionsItemSelected有效
         setHasOptionsMenu(true);
         Toolbar toolbar= (Toolbar) root.findViewById(R.id.toolbar);
@@ -62,19 +60,25 @@ public class IndexFragment extends Fragment implements IndexContract.view {
         ((MainActivity)getActivity()).setSupportActionBar(toolbar);
         ((MainActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);       //修改图标
         ((MainActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);                     //决定图标是否可以点击
-        ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);                // 给左上角图标的左边加上一个返回的图标
-
         mBinding.search.addTextChangedListener(new SearchWatcher());
-        mBinding.clear.setOnClickListener(new View.OnClickListener() {
+        mBinding.clear.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(android.view.View v) {
                 clearSearchContent();
                 hideClearSearchContent();
                 mPresenter.loadHistory();
             }
         });
         mBinding.indexListContent.setAdapter(mAdapter);
-        mPresenter.loadHistory();
+
+        try {
+            mPresenter = new IndexPresenter(new IndexRepository(), this);
+            mPresenter.loadHistory();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            showImportDataError();      //找不到数据库文件在这里处理
+        }
+
         return root;
     }
 
@@ -85,7 +89,7 @@ public class IndexFragment extends Fragment implements IndexContract.view {
     @Override
     public void showSearchHistory(List<BirdListItem> birds) {
         closeTip();
-        mBinding.indexListContent.setVisibility(View.VISIBLE);
+        mBinding.indexListContent.setVisibility(android.view.View.VISIBLE);
         mBinding.setCaption(getString(R.string.caption_search_history));
         mAdapter.updateData(birds);
     }
@@ -93,7 +97,7 @@ public class IndexFragment extends Fragment implements IndexContract.view {
     @Override
     public void showSearchResult(List<BirdListItem> birds) {
         closeTip();
-        mBinding.indexListContent.setVisibility(View.VISIBLE);
+        mBinding.indexListContent.setVisibility(android.view.View.VISIBLE);
         mBinding.setCaption(getString(R.string.caption_search_result));
         mAdapter.updateData(birds);
     }
@@ -122,37 +126,45 @@ public class IndexFragment extends Fragment implements IndexContract.view {
 
     @Override
     public void hideClearSearchContent() {
-        mBinding.clear.setVisibility(View.GONE);
+        mBinding.clear.setVisibility(android.view.View.GONE);
     }
 
     @Override
     public void showClearSearchContent() {
-        mBinding.clear.setVisibility(View.VISIBLE);
+        mBinding.clear.setVisibility(android.view.View.VISIBLE);
     }
 
     @Override
     public void showNoResult() {
-        mBinding.indexListContent.setVisibility(View.GONE);
+        mBinding.indexListContent.setVisibility(android.view.View.GONE);
         mBinding.indexTip.setText(getString(R.string.tip_no_result));
-        mBinding.indexTip.setVisibility(View.VISIBLE);
+        mBinding.indexTip.setVisibility(android.view.View.VISIBLE);
     }
 
     @Override
     public void showNoSearchHistory() {
-        mBinding.indexListContent.setVisibility(View.GONE);
+        mBinding.indexListContent.setVisibility(android.view.View.GONE);
         mBinding.indexTip.setText(getString(R.string.tip_no_history));
-        mBinding.indexTip.setVisibility(View.VISIBLE);
+        mBinding.indexTip.setVisibility(android.view.View.VISIBLE);
     }
 
     @Override
     public void closeTip() {
-        mBinding.indexTip.setVisibility(View.GONE);
+        mBinding.indexTip.setVisibility(android.view.View.GONE);
+    }
+
+    @Override
+    public void showImportDataError() {
+        mBinding.indexListContent.setVisibility(View.GONE);
+        mBinding.search.setVisibility(View.GONE);
+        mBinding.indexTip.setText(R.string.tip_import_data_error);
+        mBinding.indexTip.setVisibility(View.VISIBLE);
     }
 
 
     @Override
-    public void setPresenter(IndexContract.presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(IndexContract.Presenter Presenter) {
+        mPresenter = Presenter;
     }
 
     /**
@@ -204,7 +216,7 @@ public class IndexFragment extends Fragment implements IndexContract.view {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public android.view.View getView(int position, android.view.View convertView, ViewGroup parent) {
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(mContext);
                 convertView = inflater.inflate(R.layout.item_birds_order, null);
@@ -214,9 +226,9 @@ public class IndexFragment extends Fragment implements IndexContract.view {
             mBinding.setItem(item);
 
             //在此处添加监听器
-            mBinding.orderListItem.setOnClickListener(new View.OnClickListener() {
+            mBinding.orderListItem.setOnClickListener(new android.view.View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(android.view.View v) {
                     mPresenter.loadBirdDetail(item.cnName.get());
                 }
             });
@@ -238,7 +250,7 @@ public class IndexFragment extends Fragment implements IndexContract.view {
             notifyDataSetChanged();
         }
 
-        class SearchItemImage implements ImageInThreadContract.view {
+        class SearchItemImage implements ImageInThreadContract.View {
 
             private ItemBirdsOrderBinding mBinding;
 
@@ -251,21 +263,21 @@ public class IndexFragment extends Fragment implements IndexContract.view {
 
             @Override
             public void showLoadingImage() {
-                mBinding.orderListAvatarLoading.setVisibility(View.VISIBLE);
-                mBinding.imgBirdAvatar.setVisibility(View.GONE);
+                mBinding.orderListAvatarLoading.setVisibility(android.view.View.VISIBLE);
+                mBinding.imgBirdAvatar.setVisibility(android.view.View.GONE);
             }
 
             @Override
             public void showImage(Bitmap bitmap) {
-                mBinding.orderListAvatarLoading.setVisibility(View.GONE);
-                mBinding.imgBirdAvatar.setVisibility(View.VISIBLE);
+                mBinding.orderListAvatarLoading.setVisibility(android.view.View.GONE);
+                mBinding.imgBirdAvatar.setVisibility(android.view.View.VISIBLE);
                 mBinding.imgBirdAvatar.setImageBitmap(bitmap);
             }
 
             @Override
             public void showLoadingImageError() {
-                mBinding.orderListAvatarLoading.setVisibility(View.GONE);
-                mBinding.imgBirdAvatar.setVisibility(View.VISIBLE);
+                mBinding.orderListAvatarLoading.setVisibility(android.view.View.GONE);
+                mBinding.imgBirdAvatar.setVisibility(android.view.View.VISIBLE);
             }
 
             @Override

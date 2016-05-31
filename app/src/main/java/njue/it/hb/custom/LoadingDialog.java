@@ -1,4 +1,4 @@
-package njue.it.hb.view;
+package njue.it.hb.custom;
 
 import android.app.Dialog;
 import android.content.Context;

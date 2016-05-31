@@ -7,16 +7,24 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +33,8 @@ import njue.it.hb.R;
 import njue.it.hb.common.GlobalConstant;
 import njue.it.hb.contract.BirdsListContract;
 import njue.it.hb.contract.ImageInThreadContract;
+import njue.it.hb.custom.PinyinSideBar;
+import njue.it.hb.custom.PinyinSortAdapter;
 import njue.it.hb.data.repository.DatabaseRepository;
 import njue.it.hb.databinding.ItemBirdsOrderBinding;
 import njue.it.hb.databinding.FragmentBirdsListBinding;
@@ -34,34 +44,49 @@ import njue.it.hb.presenter.BirdsListPresenter;
 import njue.it.hb.presenter.ImageInThreadPresenter;
 import njue.it.hb.util.ImageUtil;
 
-public class BirdsListFragment extends Fragment implements BirdsListContract.view,RadioGroup.OnCheckedChangeListener {
+public class BirdsListFragment extends Fragment implements BirdsListContract.View,RadioGroup.OnCheckedChangeListener {
 
     private static final String TAG = "BirdsListFragment";
 
-    private BirdsListContract.presenter mPresenter;
+    private BirdsListContract.Presenter mPresenter;
 
     private ExpandableListView mBirdOrderListView;
 
+    private TextView mTip;
+
     private FragmentBirdsListBinding mBinding;
+
+    private FrameLayout mFrameLayoutPinyin;
+
+    private DrawerLayout mDrawerLayout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_birds_list, container, false);
-        //绑定Presenter
-        mPresenter = new BirdsListPresenter(new DatabaseRepository(),this);
         mBinding = DataBindingUtil.bind(root);
-        mBinding.radioGroup.setOnCheckedChangeListener(this);
+        mBirdOrderListView = mBinding.expand;
+        mTip = mBinding.listTip;
+        mFrameLayoutPinyin = mBinding.pinyin;
 
-        mBirdOrderListView = new ExpandableListView(getContext());
+        //为了保证onOptionsItemSelected有效
+        setHasOptionsMenu(true);
+        Toolbar toolbar= (Toolbar) root.findViewById(R.id.toolbar);
+        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        ((MainActivity)getActivity()).setSupportActionBar(toolbar);
+        ((MainActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);                     //决定图标是否可以点击
+
+        //绑定Presenter
+        try {
+            mPresenter = new BirdsListPresenter(new DatabaseRepository(),this);
+            mPresenter.loadBirdsOrderList();
+            mBinding.radioGroup.setOnCheckedChangeListener(this);
+            mBinding.radioFamilyOrder.setChecked(true);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            showImportDataError();
+        }
         return root;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mBinding.radioFamilyOrder.setChecked(true);
-        mPresenter.loadBirdsOrderList();
     }
 
     public static BirdsListFragment newInstance(){
@@ -69,22 +94,50 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
     }
 
     @Override
-    public void setPresenter(BirdsListContract.presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(BirdsListContract.Presenter Presenter) {
+        mPresenter = Presenter;
     }
 
     @Override
     public void showBirdsOrderList(List<Map<String, List<BirdListItem>>> birdList) {
-        mBinding.birdsListContent.removeAllViews();
+        mTip.setVisibility(View.GONE);
+        mFrameLayoutPinyin.setVisibility(View.GONE);
         BirdsOrderListAdapter birdsOrderListAdapter = new BirdsOrderListAdapter(birdList, getContext());
         mBirdOrderListView.setAdapter(birdsOrderListAdapter);
         birdsOrderListAdapter.setData(birdList);
-        mBinding.birdsListContent.addView(mBirdOrderListView);
+        mBirdOrderListView.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void showBirdsPinyinList(List<BirdListItem> birdList) {
-        mBinding.birdsListContent.removeAllViews();
+    public void showBirdsPinyinList(final List<BirdListItem> birdList) {
+        mTip.setVisibility(View.GONE);
+        mBirdOrderListView.setVisibility(View.GONE);
+        mFrameLayoutPinyin.setVisibility(View.VISIBLE);
+        TextView textView = mBinding.listTip;
+        PinyinSideBar sideBar = mBinding.sideBar;
+        final ListView pinyinListView = mBinding.listPinyin;
+        final PinyinSortAdapter adapter = new PinyinSortAdapter(getContext(), birdList);
+
+        sideBar.setTextView(textView);
+
+        sideBar.setOnTouchingLetterChangedListener(new PinyinSideBar.OnTouchingLetterChangedListener() {
+            @Override
+            public void onTouchingLetterChanged(String s) {
+                int position = adapter.getPositionForSection(s.charAt(0));
+                if (position != -1) {
+                    pinyinListView.setSelection(position + 1);
+                }
+            }
+        });
+
+        pinyinListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mPresenter.loadBirdDetail(birdList.get(position).cnName.get());
+            }
+        });
+
+        pinyinListView.setAdapter(adapter);
     }
 
     @Override
@@ -92,6 +145,13 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
         Intent intent = new Intent(getContext(),BirdDetailActivity.class);
         intent.putExtra(GlobalConstant.KEY_INTENT_BIRD_ID, id);
         startActivity(intent);
+    }
+
+    @Override
+    public void showImportDataError() {
+        mBirdOrderListView.setVisibility(View.GONE);
+        mFrameLayoutPinyin.setVisibility(View.GONE);
+        mTip.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -104,6 +164,19 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
                 mPresenter.loadBirdsPinyinList();
                 break;
         }
+    }
+
+    /**
+     * 添加toolbar左上角的点击功能
+     **/
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class BirdsOrderListAdapter implements ExpandableListAdapter {
@@ -255,7 +328,7 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.vie
             return 0;
         }
 
-        class AvatarView implements ImageInThreadContract.view {
+        class AvatarView implements ImageInThreadContract.View {
 
             private ItemBirdsOrderBinding mBinding;
 

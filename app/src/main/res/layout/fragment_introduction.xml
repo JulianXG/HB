@@ -15,64 +15,46 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             </android.support.v7.widget.Toolbar>
+
         </android.support.design.widget.AppBarLayout>
 
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="140dp">
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="96dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="bottom|center_horizontal"
-                android:text="@string/app_name"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal|bottom"
-                android:text="@string/version"/>
-        </LinearLayout>
+            android:layout_height="60dp"/>
 
 
         <include layout="@layout/divider"/>
         <LinearLayout style="@style/ClickableListContainer"
-                      android:id="@+id/developer">
+                      android:id="@+id/hb_basic_fact">
 
             <TextView style="@style/ClickableListCaption"
-                      android:text="@string/title_developer"/>
+                      android:text="@string/title_hb_basic_fact"/>
 
             <include layout="@layout/img_list_right_arrow"/>
         </LinearLayout>
 
         <include layout="@layout/divider"/>
         <LinearLayout style="@style/ClickableListContainer"
-                      android:id="@+id/twitter_process_method">
+                      android:id="@+id/what_is_bird">
 
             <TextView style="@style/ClickableListCaption"
-                      android:text="@string/title_twitter_process_method"/>
+                      android:text="@string/title_what_is_bird"/>
 
             <include layout="@layout/img_list_right_arrow"/>
         </LinearLayout>
 
         <include layout="@layout/divider"/>
         <LinearLayout style="@style/ClickableListContainer"
-                      android:id="@+id/thank">
+                      android:id="@+id/watch_bird">
 
             <TextView style="@style/ClickableListCaption"
-                      android:text="@string/title_thank"/>
+                      android:text="@string/title_how_to_watch_bird"/>
 
             <include layout="@layout/img_list_right_arrow"/>
         </LinearLayout>
         <include layout="@layout/divider"/>
+
 
     </LinearLayout>
-
-
 </layout>

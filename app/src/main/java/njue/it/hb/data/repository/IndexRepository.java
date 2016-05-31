@@ -1,7 +1,9 @@
 package njue.it.hb.data.repository;
 
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.util.Log;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import njue.it.hb.data.source.DatabaseDataSource;
@@ -14,12 +16,12 @@ public class IndexRepository implements IndexDataSource {
     
     private DatabaseDataSource mDatabaseDataSource;
 
-    public IndexRepository() {
+    public IndexRepository() throws FileNotFoundException {
         mDatabaseDataSource = new DatabaseRepository();
     }
 
     @Override
-    public List<BirdListItem> search(String keyword) {
+    public List<BirdListItem> search(String keyword){
         List<BirdListItem> list = mDatabaseDataSource.search(keyword);
         Log.i(TAG, "search: 结果总数：" + list.size() + "\t关键词：" + keyword);
         return list;
@@ -31,7 +33,7 @@ public class IndexRepository implements IndexDataSource {
     }
 
     @Override
-    public List<BirdListItem> getHistory() {
+    public List<BirdListItem> getHistory(){
         return mDatabaseDataSource.getSearchHistory();
     }
 

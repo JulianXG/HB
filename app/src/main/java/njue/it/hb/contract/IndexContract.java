@@ -8,7 +8,7 @@ import njue.it.hb.model.BirdListItem;
 
 public interface IndexContract {
 
-    interface presenter extends BasePresenter {
+    interface Presenter extends BasePresenter {
 
         /**
          * 通过关键词，进行模糊搜索
@@ -32,7 +32,7 @@ public interface IndexContract {
     }
 
 
-    interface view extends BaseView<presenter> {
+    interface View extends BaseView<Presenter> {
 
         /**
          * 显示搜索历史
@@ -88,6 +88,11 @@ public interface IndexContract {
          * 关闭Tip
          */
         void closeTip();
+
+        /**
+         * 显示没有正确导入资源包
+         */
+        void showImportDataError();
 
     }
 

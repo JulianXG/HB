@@ -1,20 +1,23 @@
 package njue.it.hb.presenter;
 
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
+
 import java.util.List;
 
 import njue.it.hb.contract.IndexContract;
 import njue.it.hb.data.source.IndexDataSource;
 import njue.it.hb.model.BirdListItem;
 
-public class IndexPresenter implements IndexContract.presenter {
+public class IndexPresenter implements IndexContract.Presenter {
 
-    private IndexContract.view mView;
+    private IndexContract.View mView;
 
     private IndexDataSource mDataSource;
 
-    public IndexPresenter(IndexDataSource dataSource, IndexContract.view view) {
+    public IndexPresenter(IndexDataSource dataSource, IndexContract.View View) {
+
         mDataSource = dataSource;
-        mView = view;
+        mView = View;
         mView.setPresenter(this);
     }
 

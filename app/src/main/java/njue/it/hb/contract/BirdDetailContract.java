@@ -1,12 +1,14 @@
 package njue.it.hb.contract;
 
+import java.util.List;
+
 import njue.it.hb.common.BasePresenter;
 import njue.it.hb.common.BaseView;
 import njue.it.hb.model.Bird;
 
 public interface BirdDetailContract {
 
-    interface presenter extends BasePresenter {
+    interface Presenter extends BasePresenter {
 
         /**
          * 加载鸟类信息
@@ -57,9 +59,24 @@ public interface BirdDetailContract {
          * 第二幅鸟语图，获取当前播放状态
          */
         boolean isTwitter2Playing();
+
+        /**
+         * 加载鸟类高清原图
+         */
+        void loadBirdHDOriginalImages();
+
+        /**
+         * 加载第一幅鸟语图高清
+         */
+        void loadTwitterHDOriginalImage();
+
+        /**
+         * 加载第二幅鸟语图高清
+         */
+        void loadTwitter2HDOriginalImage();
     }
 
-    interface view extends BaseView<presenter> {
+    interface View extends BaseView<Presenter> {
 
         /**
          * 显示鸟类信息
@@ -130,6 +147,11 @@ public interface BirdDetailContract {
          * 第二幅鸟语图，显示播放进度
          */
         void showTwitter2Progress(int progressMax, int progress);
+
+        /**
+         * 显示高清原图
+         */
+        void showHDOriginalPicture(List<String> list);
 
     }
 

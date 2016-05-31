@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +18,14 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import njue.it.hb.R;
 import njue.it.hb.common.GlobalConstant;
 import njue.it.hb.contract.BirdDetailContract;
+import njue.it.hb.custom.HDOriginalPictureDialog;
+import njue.it.hb.custom.LoadingDialog;
 import njue.it.hb.data.repository.DatabaseRepository;
 import njue.it.hb.databinding.ActivityBirdDetailDataBinding;
 import njue.it.hb.model.Bird;
@@ -32,15 +36,17 @@ import njue.it.hb.util.ImageUtil;
  * 这次的这个鸟类详情页的由于鸟语图有三种鸟有两份，并且自己没有找到其他的更好的办法，只好写了两份几乎一模一样的代码，重复率太高，
  * 自己也不太满意，下次争取解决这个问题。
  */
-public class BirdDetailActivity extends AppCompatActivity implements BirdDetailContract.view {
+public class BirdDetailActivity extends AppCompatActivity implements BirdDetailContract.View {
 
     private static final String TAG = "BirdDetailActivity";
 
-    private BirdDetailContract.presenter mPresenter;
+    private BirdDetailContract.Presenter mPresenter;
 
     private ActivityBirdDetailDataBinding mBinding;
 
     private LoadingDialog mLoadingDialog;
+
+    private HDOriginalPictureDialog mHDOriginalPictureDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,13 +54,17 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
         setContentView(R.layout.activity_bird_detail_data);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_bird_detail_data);
         int id =  getIntent().getIntExtra(GlobalConstant.KEY_INTENT_BIRD_ID,0);   //上一级传来的id
-        mPresenter = new BirdDetailPresenter(this, id, new DatabaseRepository());
+        try {
+            mPresenter = new BirdDetailPresenter(this, id, new DatabaseRepository());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         mLoadingDialog = new LoadingDialog(this, getString(R.string.title_loading_data));
 
         mPresenter.loadBirdDetail();
-        mBinding.twitterPlay.setOnClickListener(new View.OnClickListener() {
+        mBinding.twitterPlay.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(android.view.View v) {
                 if (!mPresenter.isTwitterPlaying()) {
                     mPresenter.playTwitter();
                 }else {
@@ -82,9 +92,9 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
             }
         });
 
-        mBinding.twitter2Play.setOnClickListener(new View.OnClickListener() {
+        mBinding.twitter2Play.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(android.view.View v) {
                 if (!mPresenter.isTwitter2Playing()) {
                     mPresenter.playTwitter2();
                 }else {
@@ -111,6 +121,20 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
                 showTwitter2Pause();
             }
         });
+
+        mBinding.gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mPresenter.loadBirdHDOriginalImages();
+            }
+        });
+
+        mBinding.twitterImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.loadTwitterHDOriginalImage();
+            }
+        });
     }
 
     @Override
@@ -120,7 +144,7 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
 
     @Override
     public void showTwitter2(Bird bird) {
-        mBinding.twitter2.setVisibility(View.VISIBLE);
+        mBinding.twitter2.setVisibility(android.view.View.VISIBLE);
         mBinding.twitter2Image.setImageBitmap(ImageUtil.getBitmap(GlobalConstant.HB_DATA_FILE_PATH +bird.twitterImagePath.get(1),500,120));
     }
 
@@ -146,6 +170,13 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
     }
 
     @Override
+    public void showHDOriginalPicture(List<String> list) {
+        Display display = getWindowManager().getDefaultDisplay();
+        mHDOriginalPictureDialog = new HDOriginalPictureDialog(BirdDetailActivity.this, list, display.getWidth(), display.getHeight());
+        mHDOriginalPictureDialog.show();
+    }
+
+    @Override
     public void showBirdDetail(Bird bird) {
         mBinding.setBird(bird);
         //由于标题栏需要显示鸟的名字，所以讲Toolbar的代码放在了这里
@@ -164,8 +195,16 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
 
         if (bird.twitterImagePath.size() > 1) {
             showTwitter2(bird);
+            mBinding.twitter2Image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPresenter.loadTwitter2HDOriginalImage();
+                }
+            });
         }
     }
+
+
 
    @Override
     public void backToBirdList() {
@@ -205,8 +244,8 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
     }
 
     @Override
-    public void setPresenter(BirdDetailContract.presenter presenter) {
-        mPresenter = presenter;
+    public void setPresenter(BirdDetailContract.Presenter Presenter) {
+        mPresenter = Presenter;
     }
 
     /**
@@ -245,7 +284,7 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public android.view.View getView(int position, android.view.View convertView, ViewGroup parent) {
             ImageView imageView = new ImageView(mContext);
             imageView.setImageBitmap(ImageUtil.getBitmap(GlobalConstant.HB_DATA_FILE_PATH + getItem(position).toString(), 200, 100));
             imageView.setAdjustViewBounds(true);
@@ -254,7 +293,7 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
         }
 
         @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemSelected(AdapterView<?> parent, android.view.View View, int position, long id) {
 
         }
 

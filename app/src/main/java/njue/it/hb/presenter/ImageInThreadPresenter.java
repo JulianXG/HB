@@ -7,12 +7,12 @@ import android.os.Message;
 import njue.it.hb.contract.ImageInThreadContract;
 import njue.it.hb.util.ImageUtil;
 
-public class ImageInThreadPresenter extends ImageInThreadContract.handler {
+public class ImageInThreadPresenter extends ImageInThreadContract.Handler {
 
-    private ImageInThreadContract.view mView;
+    private ImageInThreadContract.View mView;
 
-    public ImageInThreadPresenter(ImageInThreadContract.view view) {
-        mView = view;
+    public ImageInThreadPresenter(ImageInThreadContract.View View) {
+        mView = View;
     }
 
     @Override

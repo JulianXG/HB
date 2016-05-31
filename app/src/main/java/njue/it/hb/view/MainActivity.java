@@ -14,15 +14,16 @@ import java.io.File;
 
 import njue.it.hb.R;
 import njue.it.hb.contract.MainActivityContract;
+import njue.it.hb.custom.LoadingDialog;
 import njue.it.hb.data.repository.DataFileRepository;
 import njue.it.hb.databinding.ActivityMainBinding;
 import njue.it.hb.presenter.MainActivityPresenter;
 import njue.it.hb.util.ActivityUtils;
 
 
-public class MainActivity extends AppCompatActivity implements MainActivityContract.view {
+public class MainActivity extends AppCompatActivity implements MainActivityContract.View {
 
-    private MainActivityContract.presenter mPresenter;
+    private MainActivityContract.Presenter mPresenter;
 
     private ActivityMainBinding mBinding;
 
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_main);
         mBinding.drawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         mPresenter = new MainActivityPresenter(new DataFileRepository(this), this);
         setNavigation();
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
      */
     @Override
     public void showDefaultSection() {
-        ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), BirdsListFragment.newInstance(),R.id.content);
+        ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), IntroductionFragment.newInstance(),R.id.content);
 
 //        ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), IndexFragment.newInstance(),R.id.content);     //测试index
     }
@@ -125,8 +126,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     @Override
-    public void setPresenter(MainActivityContract.presenter presenter) {
-        mPresenter = presenter;
+    public void showFirstRun() {
+        Toast.makeText(MainActivity.this, R.string.toast_first_run, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showSelectDataError() {
+        Toast.makeText(MainActivity.this, R.string.toast_select_data_error, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setPresenter(MainActivityContract.Presenter Presenter) {
+        mPresenter = Presenter;
     }
 
     @Override
@@ -137,6 +148,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
                     Uri uri = data.getData();
                     if (uri.getScheme().equalsIgnoreCase("file")) {
                         mPresenter.extractDataFile(new File(uri.getPath()));
+                    }else {
+                        mPresenter.selectDataError();
                     }
 
                 }

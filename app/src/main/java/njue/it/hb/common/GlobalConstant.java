@@ -24,4 +24,14 @@ public class GlobalConstant {
      */
     public static final String KEY_INTENT_BIRD_ID = "INTENT_BIRD";
 
+
+    /**
+     * 介绍页intent的key值
+     */
+    public static final String KEY_INTENT_INTRODUCTION = "INTENT_INTRODUCTION";
+
+    /**
+     * 关于页Intent的key值
+     */
+    public static final String KEY_INTENT_ABOUT = "INTENT_ABOUT";
 }

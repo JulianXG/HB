@@ -7,7 +7,7 @@ import njue.it.hb.common.BaseView;
 
 public interface MainActivityContract {
 
-    interface presenter extends BasePresenter {
+    interface Presenter extends BasePresenter {
 
         /**
          * 判断是否第一次运行，并继续执行对应逻辑
@@ -29,9 +29,13 @@ public interface MainActivityContract {
          */
         void extractDataFile(File sourceFile);
 
+        /**
+         * 选择文件错误
+         */
+        void selectDataError();
     }
 
-    interface view extends BaseView<presenter> {
+    interface View extends BaseView<Presenter> {
 
         /**
          * 显示正在解压界面
@@ -67,6 +71,16 @@ public interface MainActivityContract {
          * 显示解压数据进度
          */
         void showExtractProgress(int progress);
+
+        /**
+         * 显示第一次运行
+         */
+        void showFirstRun();
+
+        /**
+         * 显示选择压缩包错误
+         */
+        void showSelectDataError();
     }
 
 }

@@ -1,8 +1,10 @@
 package njue.it.hb.data.repository;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,14 +20,14 @@ public class DatabaseRepository implements DatabaseDataSource {
 
     private SQLiteDatabase mDatabase;
 
-    public DatabaseRepository() {
+    public DatabaseRepository() throws FileNotFoundException {
         mDatabase = SQLiteUtil.getDatabase();
     }
 
     private static final int HISTORY_MAX = 6;
 
     @Override
-    public Bird getBirdById(int id) {
+    public Bird getBirdById(int id){
         Bird result = new Bird();
         result.id.set(id);
         String sql = "SELECT * FROM bird WHERE id =?";
@@ -62,7 +64,7 @@ public class DatabaseRepository implements DatabaseDataSource {
     }
 
     @Override
-    public int getIdByChineseName(String name) {
+    public int getIdByChineseName(String name){
         int result = 0;
         String sql = "SELECT id FROM bird WHERE name=?";
         Cursor cursor = mDatabase.rawQuery(sql, new String[]{name});
@@ -74,7 +76,7 @@ public class DatabaseRepository implements DatabaseDataSource {
     }
 
     @Override
-    public List<Map<String, List<BirdListItem>>> getBirdsOrderList() {
+    public List<Map<String, List<BirdListItem>>> getBirdsOrderList() throws SQLiteCantOpenDatabaseException {
         List<Map<String, List<BirdListItem>>> result = new ArrayList<>();
         List<String> familyList = new ArrayList<>();
         String sql = "SELECT DISTINCT family FROM bird";
@@ -103,9 +105,9 @@ public class DatabaseRepository implements DatabaseDataSource {
     }
 
     @Override
-    public List<BirdListItem> getBirdsPinyinList() {
+    public List<BirdListItem> getBirdsPinyinList() throws SQLiteCantOpenDatabaseException {
         List<BirdListItem> result = new ArrayList<>();
-        String sql = "SELECT name,latin_name,img_list,head_pinyin FROM bird";
+        String sql = "SELECT name,latin_name,img_list,head_pinyin FROM bird ORDER BY head_pinyin ASC";
         Cursor cursor = mDatabase.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             BirdListItem item = new BirdListItem();
@@ -120,7 +122,8 @@ public class DatabaseRepository implements DatabaseDataSource {
     }
 
     @Override
-    public List<BirdListItem> search(String keyword) {
+    public List<BirdListItem> search(String keyword) throws SQLiteCantOpenDatabaseException {
+
         List<BirdListItem> result = new ArrayList<>();
         String sql = "SELECT name,latin_name,img_list,head_pinyin "
                 + "FROM bird "
@@ -147,7 +150,7 @@ public class DatabaseRepository implements DatabaseDataSource {
     }
 
     @Override
-    public void saveSearchHistory(int birdId) {
+    public void saveSearchHistory(int birdId){
         String sql = "INSERT INTO history(bird_id,time) VALUES(?,?)";
         Object[] bindArgs = {
                 birdId,
@@ -157,7 +160,7 @@ public class DatabaseRepository implements DatabaseDataSource {
     }
 
     @Override
-    public List<BirdListItem> getSearchHistory() {
+    public List<BirdListItem> getSearchHistory(){
         List<BirdListItem> result = new ArrayList<>();
         String sql = "SELECT bird_id,time FROM history ORDER BY id DESC LIMIT " + HISTORY_MAX;
         Cursor cursor = mDatabase.rawQuery(sql, null);
@@ -170,7 +173,7 @@ public class DatabaseRepository implements DatabaseDataSource {
     }
 
     @Override
-    public BirdListItem getBirdListItemById(int birdId) {
+    public BirdListItem getBirdListItemById(int birdId){
         BirdListItem result = new BirdListItem();
         String sql = "SELECT name,latin_name,img_list,head_pinyin FROM bird WHERE id = ?";
         Cursor cursor = mDatabase.rawQuery(sql, new String[]{birdId+""});

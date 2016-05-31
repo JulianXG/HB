@@ -5,12 +5,12 @@
         <item
             android:id="@+id/introduction_nav_menu_item"
             android:icon="@drawable/ic_view_column_white_24dp"
+            android:checked="true"
             android:title="@string/introduction_title"/>
 
         <item
             android:id="@+id/common_birds_list_nav_menu_item"
             android:icon="@drawable/ic_book_white_24dp"
-            android:checked="true"
             android:title="@string/common_birds_list_title"/>
 
         <item

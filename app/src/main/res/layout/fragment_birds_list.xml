@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto">
+        xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout android:orientation="vertical"
                   android:layout_width="match_parent"
@@ -12,8 +13,10 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
+                app:navigationIcon="@drawable/ic_menu"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_gravity="center">
 
                 <info.hoang8f.android.segmented.SegmentedGroup
                     android:id="@+id/radio_group"
@@ -45,11 +48,53 @@
 
         </android.support.design.widget.AppBarLayout>
 
+        <!--Tip文本框-->
+        <TextView
+            android:id="@+id/list_tip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="20dp"
+            android:textSize="30dp"
+            android:gravity="center_horizontal"
+            android:text="@string/tip_import_data_error"/>
 
-        <FrameLayout
-            android:id="@+id/birds_list_content"
+        <ExpandableListView
+            android:id="@+id/expand"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <FrameLayout
+            android:id="@+id/pinyin"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/list_pinyin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:divider="@null"
+                android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/tip_dialog"
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:background="#606060"
+                android:visibility="gone"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="36sp"/>
+
+            <njue.it.hb.custom.PinyinSideBar
+                android:id="@+id/side_bar"
+                android:layout_width="24dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center" />
+        </FrameLayout>
 
     </LinearLayout>
 </layout>
