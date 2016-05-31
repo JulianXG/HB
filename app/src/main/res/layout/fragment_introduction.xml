@@ -19,41 +19,10 @@
         </android.support.design.widget.AppBarLayout>
 
 
-        <LinearLayout
+        <ExpandableListView
+            android:id="@+id/expand"
             android:layout_width="match_parent"
-            android:layout_height="60dp"/>
-
-
-        <include layout="@layout/divider"/>
-        <LinearLayout style="@style/ClickableListContainer"
-                      android:id="@+id/hb_basic_fact">
-
-            <TextView style="@style/ClickableListCaption"
-                      android:text="@string/title_hb_basic_fact"/>
-
-            <include layout="@layout/img_list_right_arrow"/>
-        </LinearLayout>
-
-        <include layout="@layout/divider"/>
-        <LinearLayout style="@style/ClickableListContainer"
-                      android:id="@+id/what_is_bird">
-
-            <TextView style="@style/ClickableListCaption"
-                      android:text="@string/title_what_is_bird"/>
-
-            <include layout="@layout/img_list_right_arrow"/>
-        </LinearLayout>
-
-        <include layout="@layout/divider"/>
-        <LinearLayout style="@style/ClickableListContainer"
-                      android:id="@+id/watch_bird">
-
-            <TextView style="@style/ClickableListCaption"
-                      android:text="@string/title_how_to_watch_bird"/>
-
-            <include layout="@layout/img_list_right_arrow"/>
-        </LinearLayout>
-        <include layout="@layout/divider"/>
+            android:layout_height="match_parent"/>
 
 
     </LinearLayout>

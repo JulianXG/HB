@@ -17,8 +17,8 @@
             android:background="@color/divider_color"
             android:gravity="center_vertical"
             android:paddingLeft="12dp"
-            android:text="A"
             android:textSize="18sp"
+            android:visibility="gone"
             android:textStyle="bold"/>
 
        <TextView

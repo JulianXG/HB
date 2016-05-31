@@ -1,6 +1,5 @@
 package njue.it.hb.custom;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
-
-import njue.it.hb.R;
 
 public class PinyinSideBar extends View {
 
@@ -38,8 +35,6 @@ public class PinyinSideBar extends View {
     private static final int GREY_COLOR = Color.parseColor("#606060");
 
     private static final int BLUE_COLOR = Color.parseColor("#4F41FD");
-
-    private TextView mTipText;
 
     private OnTouchingLetterChangedListener mListener;
 
@@ -78,7 +73,7 @@ public class PinyinSideBar extends View {
             }
 
             float x = width / 2 - mPaint.measureText(mLetterList.get(i)) / 2;
-            float y = singleHeight * i + singleHeight / 2;
+            float y = singleHeight * i + singleHeight ;
             canvas.drawText(mLetterList.get(i), x, y, mPaint);
             mPaint.reset();
         }
@@ -90,15 +85,12 @@ public class PinyinSideBar extends View {
         float y = event.getY();
         int oldChoose = mChoose;
         int c = ((int) (y / getHeight() * mLetterList.size()));
-        mTipText = (TextView) ((Activity) mContext).findViewById(R.id.tip_dialog);
 
         switch (action) {
             case MotionEvent.ACTION_UP:
                 setBackgroundColor(WHITE_COLOR);
                 mChoose = -1;
                 invalidate();
-                mTipText.setVisibility(GONE);
-
                 break;
             default:
                 if (oldChoose != c) {
@@ -106,22 +98,15 @@ public class PinyinSideBar extends View {
                         if (mListener != null) {
                             mListener.onTouchingLetterChanged(c);
                         }
-                        mTipText.setText(mLetterList.get(c));
-                        mTipText.setVisibility(VISIBLE);
                         mChoose = c;
                         invalidate();
                     }
                 }
                 break;
-
         }
 
         return true;
     }
-/*
-    public void setTextView(TextView textView) {
-        this.mTipText = textView;
-    }*/
 
     public void setOnTouchingLetterChangedListener(OnTouchingLetterChangedListener onTouchingLetterChangedListener) {
         this.mListener = onTouchingLetterChangedListener;

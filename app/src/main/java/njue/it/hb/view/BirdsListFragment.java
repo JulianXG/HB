@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +20,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.io.FileNotFoundException;
@@ -36,9 +37,9 @@ import njue.it.hb.contract.ImageInThreadContract;
 import njue.it.hb.custom.PinyinSideBar;
 import njue.it.hb.custom.PinyinSortAdapter;
 import njue.it.hb.data.repository.DatabaseRepository;
-import njue.it.hb.databinding.ItemBirdsOrderBinding;
 import njue.it.hb.databinding.FragmentBirdsListBinding;
-import njue.it.hb.databinding.ItemExpandOrderParentBinding;
+import njue.it.hb.databinding.ItemBirdsOrderBinding;
+import njue.it.hb.databinding.ItemExpandParentBinding;
 import njue.it.hb.model.BirdListItem;
 import njue.it.hb.presenter.BirdsListPresenter;
 import njue.it.hb.presenter.ImageInThreadPresenter;
@@ -56,7 +57,7 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
 
     private FragmentBirdsListBinding mBinding;
 
-    private FrameLayout mFrameLayoutPinyin;
+    private RelativeLayout mLayoutPinyin;
 
     private DrawerLayout mDrawerLayout;
 
@@ -67,7 +68,7 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
         mBinding = DataBindingUtil.bind(root);
         mBirdOrderListView = mBinding.expand;
         mTip = mBinding.listTip;
-        mFrameLayoutPinyin = mBinding.pinyin;
+        mLayoutPinyin = mBinding.pinyin;
 
         //为了保证onOptionsItemSelected有效
         setHasOptionsMenu(true);
@@ -101,7 +102,7 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
     @Override
     public void showBirdsOrderList(List<Map<String, List<BirdListItem>>> birdList) {
         mTip.setVisibility(View.GONE);
-        mFrameLayoutPinyin.setVisibility(View.GONE);
+        mLayoutPinyin.setVisibility(View.GONE);
         BirdsOrderListAdapter birdsOrderListAdapter = new BirdsOrderListAdapter(birdList, getContext());
         mBirdOrderListView.setAdapter(birdsOrderListAdapter);
         birdsOrderListAdapter.setData(birdList);
@@ -112,7 +113,7 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
     public void showBirdsPinyinList(final List<BirdListItem> birdList) {
         mTip.setVisibility(View.GONE);
         mBirdOrderListView.setVisibility(View.GONE);
-        mFrameLayoutPinyin.setVisibility(View.VISIBLE);
+        mLayoutPinyin.setVisibility(View.VISIBLE);
         PinyinSideBar sideBar = mBinding.sideBar;
         final ListView pinyinListView = mBinding.listPinyin;
         final PinyinSortAdapter adapter = new PinyinSortAdapter(getContext(), birdList);
@@ -122,7 +123,9 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
             public void onTouchingLetterChanged(int section) {
                 int position = adapter.getPositionForSection(section);
                 if (position != -1) {
-                    pinyinListView.setSelection(position + 1);
+                    pinyinListView.requestFocusFromTouch();
+                    pinyinListView.setSelection(position);
+                                                                                                                                                                                                                                        Log.i(TAG, "onTouchingLetterChanged: pinyinList setSelection: " + position + "\tpinyin: " + section);
                 }
             }
         });
@@ -147,7 +150,7 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
     @Override
     public void showImportDataError() {
         mBirdOrderListView.setVisibility(View.GONE);
-        mFrameLayoutPinyin.setVisibility(View.GONE);
+        mLayoutPinyin.setVisibility(View.GONE);
         mTip.setVisibility(View.VISIBLE);
     }
 
@@ -184,7 +187,7 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
 
         private ItemBirdsOrderBinding mChildBinding;
 
-        private ItemExpandOrderParentBinding mParentBinding;
+        private ItemExpandParentBinding mParentBinding;
 
         /**
          * 头像暂存内存的map，key值为groupPosition*100+childPosition
@@ -250,11 +253,11 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
         public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(mContext);
-                convertView = inflater.inflate(R.layout.item_expand_order_parent, null);
+                convertView = inflater.inflate(R.layout.item_expand_parent, null);
             }
             mParentBinding = DataBindingUtil.bind(convertView);
             String family = (String) getGroup(groupPosition);
-            mParentBinding.setFamily(family);
+            mParentBinding.setTitle(family);
 
             return convertView;
         }
