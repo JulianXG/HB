@@ -35,6 +35,8 @@ public class PinyinSortAdapter extends BaseAdapter implements SectionIndexer {
 
     private ItemBirdsOrderBinding mBinding;
 
+    private static final String[] INDEX_PINYIN = {"A", "B", "C", "D", "E", "F", "G","H", "I", "J", "K", "L", "M", "N",
+            "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","#"};
 
     public PinyinSortAdapter(Context context, List<BirdListItem> list) {
         mContext = ((Activity) context);
@@ -60,21 +62,21 @@ public class PinyinSortAdapter extends BaseAdapter implements SectionIndexer {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            convertView = inflater.inflate(android.R.layout.simple_list_item_1, null);
+            convertView = inflater.inflate(R.layout.item_pinyin_list, null);
         }
-        TextView letter = (TextView) convertView.findViewById(R.id.tip_dialog);
+        TextView category = (TextView) convertView.findViewById(R.id.pinyin_category);
 
-        TextView name = (TextView) convertView.findViewById(android.R.id.text1);
+        TextView name = (TextView) convertView.findViewById(R.id.bird_name);
         name.setText(mList.get(position).cnName.get());
 
         int section = getSectionForPosition(position);
-//
-//        if (position == getPositionForSection(section)) {
-//            letter.setVisibility(View.VISIBLE);
-//            letter.setText(item.initialPinyin.get());
-//        } else {
 
-//        }
+        if (position == getPositionForSection(section)) {
+            category.setVisibility(View.VISIBLE);
+            category.setText(mList.get(position).initialPinyin.get().toUpperCase());
+        } else {
+            category.setVisibility(View.GONE);
+        }
         return convertView;
     }
 
@@ -85,24 +87,29 @@ public class PinyinSortAdapter extends BaseAdapter implements SectionIndexer {
 
     @Override
     public int getPositionForSection(int sectionIndex) {
-        for (int i = 0; i < getCount(); i++) {
-            String sortStr = mList.get(i).initialPinyin.get();
-            char firstChar = sortStr.toUpperCase().charAt(0);
-            if (firstChar == sectionIndex) {
-                return i;
+        int result=-1;
+        String section = INDEX_PINYIN[sectionIndex];
+        for (int i = 0; i < mList.size(); i++) {
+            String pinyin = mList.get(i).initialPinyin.get().toUpperCase();
+            if (section.equals(pinyin)) {
+                result = i;
+                break;
             }
         }
-        return -1;
+        return result;
     }
 
     @Override
     public int getSectionForPosition(int position) {
-        return mList.get(position).initialPinyin.get().charAt(0);
-    }
-
-    public void updateData(List<BirdListItem> list) {
-        mList = list;
-        notifyDataSetChanged();
+        int result = -1;
+        String pinyin = mList.get(position).initialPinyin.get().toUpperCase();
+        for (int i = 0; i < INDEX_PINYIN.length; i++) {
+            if (pinyin.equals(INDEX_PINYIN[i])) {
+                result = i;
+                break;
+            }
+        }
+        return result;
     }
 
 }

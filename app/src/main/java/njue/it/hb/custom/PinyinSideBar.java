@@ -1,5 +1,6 @@
 package njue.it.hb.custom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,7 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import njue.it.hb.R;
-import njue.it.hb.model.BirdListItem;
 
 public class PinyinSideBar extends View {
 
@@ -39,7 +39,7 @@ public class PinyinSideBar extends View {
 
     private static final int BLUE_COLOR = Color.parseColor("#4F41FD");
 
-    private TextView mTextDialog;
+    private TextView mTipText;
 
     private OnTouchingLetterChangedListener mListener;
 
@@ -56,7 +56,6 @@ public class PinyinSideBar extends View {
         mContext = context;
         mAttributeSet = attrs;
         mDefineStyle = defStyleAttr;
-
     }
 
     @Override
@@ -91,28 +90,24 @@ public class PinyinSideBar extends View {
         float y = event.getY();
         int oldChoose = mChoose;
         int c = ((int) (y / getHeight() * mLetterList.size()));
+        mTipText = (TextView) ((Activity) mContext).findViewById(R.id.tip_dialog);
 
         switch (action) {
             case MotionEvent.ACTION_UP:
                 setBackgroundColor(WHITE_COLOR);
                 mChoose = -1;
                 invalidate();
-                if (mTextDialog != null) {
-                    mTextDialog.setVisibility(GONE);
-                }
+                mTipText.setVisibility(GONE);
+
                 break;
             default:
-//                setBackgroundResource(R.drawable.sidebar_background);
                 if (oldChoose != c) {
                     if (c >= 0 && c < mLetterList.size()) {
                         if (mListener != null) {
-                            mListener.onTouchingLetterChanged(mLetterList.get(c));
+                            mListener.onTouchingLetterChanged(c);
                         }
-
-                        if (mTextDialog != null) {
-                            mTextDialog.setText(mLetterList.get(c));
-                            mTextDialog.setVisibility(VISIBLE);
-                        }
+                        mTipText.setText(mLetterList.get(c));
+                        mTipText.setVisibility(VISIBLE);
                         mChoose = c;
                         invalidate();
                     }
@@ -123,15 +118,10 @@ public class PinyinSideBar extends View {
 
         return true;
     }
-
-    public void setIndexText(List<String> list) {
-        mLetterList = list;
-        invalidate();
-    }
-
+/*
     public void setTextView(TextView textView) {
-        this.mTextDialog = textView;
-    }
+        this.mTipText = textView;
+    }*/
 
     public void setOnTouchingLetterChangedListener(OnTouchingLetterChangedListener onTouchingLetterChangedListener) {
         this.mListener = onTouchingLetterChangedListener;
@@ -139,6 +129,6 @@ public class PinyinSideBar extends View {
 
     public interface OnTouchingLetterChangedListener {
 
-        void onTouchingLetterChanged(String s);
+        void onTouchingLetterChanged(int section);
     }
 }

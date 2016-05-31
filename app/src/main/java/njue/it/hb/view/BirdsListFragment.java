@@ -113,17 +113,14 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
         mTip.setVisibility(View.GONE);
         mBirdOrderListView.setVisibility(View.GONE);
         mFrameLayoutPinyin.setVisibility(View.VISIBLE);
-        TextView textView = mBinding.listTip;
         PinyinSideBar sideBar = mBinding.sideBar;
         final ListView pinyinListView = mBinding.listPinyin;
         final PinyinSortAdapter adapter = new PinyinSortAdapter(getContext(), birdList);
 
-        sideBar.setTextView(textView);
-
         sideBar.setOnTouchingLetterChangedListener(new PinyinSideBar.OnTouchingLetterChangedListener() {
             @Override
-            public void onTouchingLetterChanged(String s) {
-                int position = adapter.getPositionForSection(s.charAt(0));
+            public void onTouchingLetterChanged(int section) {
+                int position = adapter.getPositionForSection(section);
                 if (position != -1) {
                     pinyinListView.setSelection(position + 1);
                 }
