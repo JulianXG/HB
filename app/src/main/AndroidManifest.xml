@@ -22,7 +22,6 @@
 
         <activity android:name=".view.BirdDetailActivity"/>
 
-        <activity android:name=".view.CommonContentActivity"/>
     </application>
 
 </manifest>

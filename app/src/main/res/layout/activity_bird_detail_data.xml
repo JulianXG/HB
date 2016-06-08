@@ -66,6 +66,7 @@
 
                     <TextView
                         style="@style/ListContent"
+                        android:textStyle="italic"
                         android:text="@{bird.latinName}"/>
 
                 </LinearLayout>

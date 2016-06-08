@@ -2,14 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <android.support.v4.widget.DrawerLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-                                            xmlns:tools="http://schemas.android.com/tools"
-                                            android:id="@+id/drawer_layout"
-                                            android:orientation="vertical"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="match_parent"
-                                            tools:context=".View.MainActivity"
-                                            tools:openDrawer="start">
+    <android.support.v4.widget.DrawerLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/drawer_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.MainActivity"
+        tools:openDrawer="start">
 
         <FrameLayout
             android:id="@+id/content"
@@ -24,7 +25,6 @@
             android:layout_gravity="start"
             app:headerLayout="@layout/nav_header"
             app:menu="@menu/drawer_actions"/>
-
 
     </android.support.v4.widget.DrawerLayout>
 </layout>

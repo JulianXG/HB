@@ -162,7 +162,7 @@ public class DatabaseRepository implements DatabaseDataSource {
     @Override
     public List<BirdListItem> getSearchHistory(){
         List<BirdListItem> result = new ArrayList<>();
-        String sql = "SELECT bird_id,time FROM history ORDER BY id DESC LIMIT " + HISTORY_MAX;
+        String sql = "SELECT bird_id,time,COUNT(DISTINCT bird_id) FROM history GROUP BY bird_id ORDER BY id DESC LIMIT " + HISTORY_MAX;
         Cursor cursor = mDatabase.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             int id = cursor.getInt(0);

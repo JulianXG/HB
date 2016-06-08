@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -55,11 +56,16 @@ public class IndexFragment extends Fragment implements IndexContract.View {
         //为了保证onOptionsItemSelected有效
         setHasOptionsMenu(true);
         Toolbar toolbar= (Toolbar) root.findViewById(R.id.toolbar);
+
+        toolbar.setTitle("");       //暂时用这个方式代替实现，没找到更好的办法
+        TextView title = (TextView) root.findViewById(R.id.title);
+        title.setText(R.string.index_title);
+
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        toolbar.setTitle(getString(R.string.index_title));
         ((MainActivity)getActivity()).setSupportActionBar(toolbar);
         ((MainActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);       //修改图标
         ((MainActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);                     //决定图标是否可以点击
+        ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 给左上角图标的左边加上一个返回的图标
         mBinding.search.addTextChangedListener(new SearchWatcher());
         mBinding.clear.setOnClickListener(new android.view.View.OnClickListener() {
             @Override

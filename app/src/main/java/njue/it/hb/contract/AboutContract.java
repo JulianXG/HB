@@ -10,20 +10,6 @@ public interface AboutContract {
 
     interface View extends BaseView<Presenter> {
 
-        /**
-         * 显示开发人员
-         */
-        void showDevelopers();
-
-        /**
-         * 显示鸟语图处理方法
-         */
-        void showTwitterProcessMethod();
-
-        /**
-         * 显示致谢
-         */
-        void showThank();
     }
 
 

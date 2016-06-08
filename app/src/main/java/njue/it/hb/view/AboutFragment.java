@@ -1,6 +1,8 @@
 package njue.it.hb.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,15 +11,23 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import njue.it.hb.R;
 import njue.it.hb.common.GlobalConstant;
 import njue.it.hb.contract.AboutContract;
 import njue.it.hb.databinding.FragmentAboutBinding;
+import njue.it.hb.databinding.ItemExpandParentBinding;
 
 public class AboutFragment extends Fragment implements AboutContract.View {
 
@@ -40,32 +50,20 @@ public class AboutFragment extends Fragment implements AboutContract.View {
         mBinding = DataBindingUtil.bind(root);
         setHasOptionsMenu(true);
         Toolbar toolbar= (Toolbar) root.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.introduction_title);
+
+        toolbar.setTitle("");       //暂时用这个方式代替实现，没找到更好的办法
+        TextView title = (TextView) root.findViewById(R.id.title);
+        title.setText(R.string.about_title);
+
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         ((MainActivity)getActivity()).setSupportActionBar(toolbar);
         ((MainActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);//修改图标
         ((MainActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);//决定图标是否可以点击
         ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 给左上角图标的左边加上一个返回的图标
 
-        mBinding.developer.setOnClickListener(new android.view.View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View v) {
-                showDevelopers();
-            }
-        });
+        ExpandAdapter adapter = new ExpandAdapter(getContext());
+        mBinding.aboutExpand.setAdapter(adapter);
 
-        mBinding.twitterProcessMethod.setOnClickListener(new android.view.View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View v) {
-                showTwitterProcessMethod();
-            }
-        });
-        mBinding.thank.setOnClickListener(new android.view.View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View v) {
-                showThank();
-            }
-        });
         return root;
     }
 
@@ -88,31 +86,140 @@ public class AboutFragment extends Fragment implements AboutContract.View {
     }
 
     @Override
-    public void showDevelopers() {
-        Intent intent=new Intent();
-        intent.putExtra(GlobalConstant.KEY_INTENT_ABOUT, DEVELOPER);
-        intent.setClass(getActivity(),CommonContentActivity.class);
-        getActivity().startActivity(intent);
-    }
-
-    @Override
-    public void showTwitterProcessMethod() {
-        Intent intent=new Intent();
-        intent.putExtra(GlobalConstant.KEY_INTENT_ABOUT, TWITTER_PROCESS_METHOD);
-        intent.setClass(getActivity(),CommonContentActivity.class);
-        getActivity().startActivity(intent);
-    }
-
-    @Override
-    public void showThank() {
-        Intent intent=new Intent();
-        intent.putExtra(GlobalConstant.KEY_INTENT_ABOUT, THANK);
-        intent.setClass(getActivity(),CommonContentActivity.class);
-        getActivity().startActivity(intent);
-    }
-
-    @Override
     public void setPresenter(AboutContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    class ExpandAdapter implements ExpandableListAdapter {
+
+        private String[] titles = {
+                getString(R.string.title_developer),
+                getString(R.string.title_twitter_process_method),
+                getString(R.string.title_thank)
+        };
+
+        private int[] contents = {
+                R.string.developers,
+                R.string.twitter_process_method,
+                R.string.thank
+        };
+
+        private List<List<Integer>> mData;
+
+        private Context mContext;
+
+        private ItemExpandParentBinding mParentBinding;
+
+        public ExpandAdapter(Context context) {
+            mContext = context;
+            mData = new ArrayList<>();
+            for (int content : contents) {
+                List<Integer> item = new ArrayList<>();
+                item.add(content);
+                mData.add(item);
+            }
+        }
+
+        @Override
+        public void unregisterDataSetObserver(DataSetObserver observer) {
+
+        }
+
+        @Override
+        public void registerDataSetObserver(DataSetObserver observer) {
+
+        }
+
+        @Override
+        public int getGroupCount() {
+            return mData.size();
+        }
+
+        @Override
+        public int getChildrenCount(int groupPosition) {
+            return mData.get(groupPosition).size();
+        }
+
+        @Override
+        public Object getGroup(int groupPosition) {
+            return titles[groupPosition];
+        }
+
+        @Override
+        public Object getChild(int groupPosition, int childPosition) {
+            return contents[childPosition];
+        }
+
+        @Override
+        public long getGroupId(int groupPosition) {
+            return groupPosition;
+        }
+
+        @Override
+        public long getChildId(int groupPosition, int childPosition) {
+            return childPosition;
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            convertView = inflater.inflate(R.layout.item_expand_parent, null);
+            mParentBinding = DataBindingUtil.bind(convertView);
+            mParentBinding.setTitle((String) getGroup(groupPosition));
+
+            return convertView;
+
+        }
+
+        @Override
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            LinearLayout layout = new LinearLayout(mContext);
+            TextView content = new TextView(mContext);
+            layout.addView(content);
+            content.setMovementMethod(ScrollingMovementMethod.getInstance());
+            content.setText( mData.get(groupPosition).get(childPosition));
+            return layout;
+        }
+
+        @Override
+        public boolean isChildSelectable(int groupPosition, int childPosition) {
+            return true;
+        }
+
+        @Override
+        public boolean areAllItemsEnabled() {
+            return false;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public void onGroupExpanded(int groupPosition) {
+
+        }
+
+        @Override
+        public void onGroupCollapsed(int groupPosition) {
+
+        }
+
+        @Override
+        public long getCombinedChildId(long groupId, long childId) {
+            return 0;
+        }
+
+        @Override
+        public long getCombinedGroupId(long groupId) {
+            return 0;
+        }
+
     }
 }

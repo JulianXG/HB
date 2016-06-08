@@ -38,12 +38,6 @@ public class IntroductionFragment extends Fragment implements IntroductionContra
 
     private DrawerLayout mDrawerLayout;
 
-    public static final String KEY_BASIC_FACT = "1";
-
-    public static final String KEY_WHAT_IS_BIRD = "2";
-
-    public static final String KEY_WATCH_BIRD = "3";
-
     private ExpandAdapter mAdapter;
 
     @Nullable
@@ -53,7 +47,11 @@ public class IntroductionFragment extends Fragment implements IntroductionContra
         mBinding = DataBindingUtil.bind(root);
         setHasOptionsMenu(true);
         Toolbar toolbar= (Toolbar) root.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.introduction_title);
+
+        toolbar.setTitle("");       //暂时用这个方式代替实现，没找到更好的办法
+        TextView title = (TextView) root.findViewById(R.id.title);
+        title.setText(R.string.introduction_title);
+
         mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         ((MainActivity)getActivity()).setSupportActionBar(toolbar);
         ((MainActivity)getActivity()).getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);//修改图标
@@ -88,30 +86,6 @@ public class IntroductionFragment extends Fragment implements IntroductionContra
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void showHBIntroduction() {
-        Intent intent=new Intent();
-        intent.putExtra(GlobalConstant.KEY_INTENT_INTRODUCTION, KEY_BASIC_FACT);
-        intent.setClass(getActivity(),CommonContentActivity.class);
-        getActivity().startActivity(intent);
-    }
-
-    @Override
-    public void showWhatIsBird() {
-        Intent intent=new Intent();
-        intent.putExtra(GlobalConstant.KEY_INTENT_INTRODUCTION, KEY_WHAT_IS_BIRD);
-        intent.setClass(getActivity(),CommonContentActivity.class);
-        getActivity().startActivity(intent);
-    }
-
-    @Override
-    public void showHowToWatchBird() {
-        Intent intent=new Intent();
-        intent.putExtra(GlobalConstant.KEY_INTENT_INTRODUCTION, KEY_WATCH_BIRD);
-        intent.setClass(getActivity(),CommonContentActivity.class);
-        getActivity().startActivity(intent);
     }
 
     class ExpandAdapter implements ExpandableListAdapter {

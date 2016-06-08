@@ -5,18 +5,7 @@
                   android:layout_width="match_parent"
                   android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="55dp">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.AppBarLayout>
-
+        <include layout="@layout/toolbar"/>
 
         <LinearLayout
             android:orientation="vertical"
@@ -42,37 +31,12 @@
 
 
         <include layout="@layout/divider"/>
-        <LinearLayout style="@style/ClickableListContainer"
-                      android:id="@+id/developer">
 
-            <TextView style="@style/ClickableListCaption"
-                      android:text="@string/title_developer"/>
-
-            <include layout="@layout/img_list_right_arrow"/>
-        </LinearLayout>
-
-        <include layout="@layout/divider"/>
-        <LinearLayout style="@style/ClickableListContainer"
-                      android:id="@+id/twitter_process_method">
-
-            <TextView style="@style/ClickableListCaption"
-                      android:text="@string/title_twitter_process_method"/>
-
-            <include layout="@layout/img_list_right_arrow"/>
-        </LinearLayout>
-
-        <include layout="@layout/divider"/>
-        <LinearLayout style="@style/ClickableListContainer"
-                      android:id="@+id/thank">
-
-            <TextView style="@style/ClickableListCaption"
-                      android:text="@string/title_thank"/>
-
-            <include layout="@layout/img_list_right_arrow"/>
-        </LinearLayout>
-        <include layout="@layout/divider"/>
+        <ExpandableListView
+            android:id="@+id/about_expand"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
-
 
 </layout>
