@@ -1,7 +1,9 @@
 package njue.it.hb.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -203,8 +206,6 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
             });
         }
     }
-
-
 
    @Override
     public void backToBirdList() {

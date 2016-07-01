@@ -53,65 +53,71 @@ public final class ZipUtil {
      */
     public static final String KEY_ERROR = "ERROR";
 
-    public static void extractZipFileWithProgress(File sourceFile, final String outputPath, final Handler handler) throws IOException {
-        final ZipFile zipFile = new ZipFile(sourceFile);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (handler == null) {
-                    return;
-                }
-                Enumeration enumeration = zipFile.entries();
-                Bundle bundle;
-                Message message;
-                int current=0;
-                int count = zipFile.size();
-                handler.sendEmptyMessage(START);
-                while (enumeration.hasMoreElements()) {
-                    Log.i(TAG, "run: current:" + current);
-                    try {
-                        ZipEntry entry = (ZipEntry) enumeration.nextElement();
-                        if (entry.isDirectory()) {
-                            String directory = outputPath + "/" + entry.getName();
-                            File path = new File(directory);
-                            if (!path.exists()) {
-                                path.mkdirs();
-                            }
-                            current++;
-                            continue;
-                        }
-                        byte[] buff = new byte[1024];
-                        OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(new File(outputPath, entry.getName())));
-                        InputStream inputStream = new BufferedInputStream(zipFile.getInputStream(entry));
-                        int readLine;
-                        while ((readLine = inputStream.read(buff, 0, 1024)) != -1) {
-                            outputStream.write(buff,0,readLine);
-                        }
-                        Log.i(TAG, "extractZipFile: " + outputPath + "/" + entry.getName());
-                        inputStream.close();
-                        outputStream.close();
-
-                        current++;
-                        bundle = new Bundle();
-                        bundle.putInt(KEY_PROGRESS, (current * 100) / count);
-                        message = new Message();
-                        message.what = EXTRACTING;
-                        message.setData(bundle);
-                        handler.sendMessage(message);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        bundle = new Bundle();
-                        bundle.putString(KEY_ERROR, e.getMessage());
-                        message = new Message();
-                        message.what = ERROR;
-                        message.setData(bundle);
-                        handler.sendMessage(message);
+    public static void extractZipFileWithProgress(File sourceFile, final String outputPath, final Handler handler){
+        final ZipFile zipFile;
+        try {
+            zipFile = new ZipFile(sourceFile);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    if (handler == null) {
+                        return;
                     }
+                    Enumeration enumeration = zipFile.entries();
+                    Bundle bundle;
+                    Message message;
+                    int current=0;
+                    int count = zipFile.size();
+                    handler.sendEmptyMessage(START);
+                    while (enumeration.hasMoreElements()) {
+                        Log.i(TAG, "run: current:" + current);
+                        try {
+                            ZipEntry entry = (ZipEntry) enumeration.nextElement();
+                            if (entry.isDirectory()) {
+                                String directory = outputPath + "/" + entry.getName();
+                                File path = new File(directory);
+                                if (!path.exists()) {
+                                    path.mkdirs();
+                                }
+                                current++;
+                                continue;
+                            }
+                            byte[] buff = new byte[1024];
+                            OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(new File(outputPath, entry.getName())));
+                            InputStream inputStream = new BufferedInputStream(zipFile.getInputStream(entry));
+                            int readLine;
+                            while ((readLine = inputStream.read(buff, 0, 1024)) != -1) {
+                                outputStream.write(buff,0,readLine);
+                            }
+                            Log.i(TAG, "extractZipFile: " + outputPath + "/" + entry.getName());
+                            inputStream.close();
+                            outputStream.close();
+
+                            current++;
+                            bundle = new Bundle();
+                            bundle.putInt(KEY_PROGRESS, (current * 100) / count);
+                            message = new Message();
+                            message.what = EXTRACTING;
+                            message.setData(bundle);
+                            handler.sendMessage(message);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            bundle = new Bundle();
+                            bundle.putString(KEY_ERROR, e.getMessage());
+                            message = new Message();
+                            message.what = ERROR;
+                            message.setData(bundle);
+                            handler.sendMessage(message);
+                        }
+                    }
+                    handler.sendEmptyMessage(COMPLETED);
+                    Log.i(TAG, "run: 全部解压完毕");
                 }
-                handler.sendEmptyMessage(COMPLETED);
-                Log.i(TAG, "run: 全部解压完毕");
-            }
-        }).start();
+            }).start();
+        } catch (IOException e) {
+            e.printStackTrace();
+            handler.sendEmptyMessage(ERROR);
+        }
 
     }
 

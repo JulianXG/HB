@@ -24,6 +24,10 @@ public class GlobalConstant {
      */
     public static final String KEY_INTENT_BIRD_ID = "INTENT_BIRD";
 
+    /**
+     * 数据包绝对路径，这个版本写死在代码里
+     */
+    public static final String DATA_PACKAGE_FILE_NAME = EXTERNAL_STORAGE_ROOT_PATH + "/data.zip";
 
     /**
      * 介绍页intent的key值

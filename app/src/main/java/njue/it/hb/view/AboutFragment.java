@@ -31,12 +31,6 @@ import njue.it.hb.databinding.ItemExpandParentBinding;
 
 public class AboutFragment extends Fragment implements AboutContract.View {
 
-    public static final String DEVELOPER = "DEVELOPER";
-
-    public static final String TWITTER_PROCESS_METHOD = "TWITTER_PROCESS_METHOD";
-
-    public static final String THANK = "THANK";
-
     private FragmentAboutBinding mBinding;
 
     private DrawerLayout mDrawerLayout;

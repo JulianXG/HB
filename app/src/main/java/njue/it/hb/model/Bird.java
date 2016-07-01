@@ -9,6 +9,9 @@ import android.os.Parcelable;
 
 public class Bird {
 
+    /**
+     * 鸟Id
+     */
     public ObservableInt id = new ObservableInt();
 
     /**

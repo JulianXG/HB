@@ -26,7 +26,7 @@
         <item
             android:id="@+id/update_data_menu_item"
             android:icon="@drawable/ic_cloud_download_white_24dp"
-            android:title="@string/update_data_title"/>
+            android:title="@string/data_package_title"/>
     </group>
 
 </menu>

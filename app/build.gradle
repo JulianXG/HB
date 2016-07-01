@@ -3,13 +3,12 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
     defaultConfig {
         applicationId "njue.it.hb"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName '1.1.0'
     }
     buildTypes {
         release {
@@ -20,20 +19,20 @@ android {
     dataBinding {
         enabled = true
     }
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile "com.android.support:design:23.3.0"
-
+    compile 'com.android.support:design:23.3.0'
     //这是loading的库
     compile 'com.wang.avi:library:1.0.5'
     compile 'com.nineoldandroids:library:2.4.0'
-
     //这是toolbar上的分页的库
     compile 'info.hoang8f:android-segmented:1.0.6'
-
+    //图片能随意放大缩小
     compile 'com.github.chrisbanes:PhotoView:1.2.6'
 }

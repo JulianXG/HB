@@ -253,6 +253,7 @@ public class IndexFragment extends Fragment implements IndexContract.View {
 
         public void updateData(List<BirdListItem> data) {
             mList = data;
+            mBitmapMap.clear();
             notifyDataSetChanged();
         }
 

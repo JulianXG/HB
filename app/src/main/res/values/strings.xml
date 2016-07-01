@@ -1,16 +1,17 @@
 <resources>
+    <string name="version">v1.1.0</string>
     <string name="app_name">黑石顶常见鸟类</string>
     <string name="introduction_title">介绍</string>
     <string name="common_birds_list_title">常见鸟类</string>
     <string name="index_title">检索</string>
     <string name="about_title">关于</string>
-    <string name="update_data_title">更新数据包</string>
+    <string name="data_package_title">数据包管理</string>
 
     <string name="tip_no_history">无搜索历史</string>
 
     <!--LoadingDialog中的标题内容-->
     <string name="title_loading_data">正在加载数据</string>
-    <string name="title_extracting_loading">解压数据</string>
+    <string name="title_extracting_loading">安装数据包</string>
 
     <!--caption中的内容-->
     <string name="caption_loading_searching">正在搜索中</string>
@@ -19,11 +20,11 @@
     <string name="caption_search_result">搜索结果：</string>
 
     <!--此为Toast内容-->
-    <string name="toast_extract_success">解压数据文件成功</string>
-    <string name="toast_extract_fail">解压数据文件失败，请确认压缩包文件的正确性</string>
+    <string name="toast_install_success">数据包安装成功</string>
+    <string name="toast_extract_fail">解压数据文件失败，请确认压缩包文件的正确性，尝试重新下载</string>
     <string name="toast_data_error">出错，请尝试更新数据包</string>
     <string name="toast_first_run">第一次运行，需要选择更新资源包，APP会自动解压数据</string>
-    <string name="toast_select_data_error">资源包有误，请更新资源包</string>
+    <string name="toast_select_data_error">数据包选择出错，请重新选择，或者下载</string>
 
 
     <string name="radio_family_order">科类</string>
@@ -32,7 +33,7 @@
 
     <!--Tip中内容-->
     <string name="tip_no_result">无搜索结果</string>
-    <string name="tip_import_data_error">资源包没有正确导入，请更新资源包</string>
+    <string name="tip_import_data_error">数据包暂未安装，请安装数据包</string>
 
     <!--工具栏标题-->
     <string name="title_hb_basic_fact">黑石顶概况</string>
@@ -62,14 +63,40 @@
     </string>
 
     <string name="developers">肖刚：xiaogangla@qq.com\n张煊威：1120544046@qq.com</string>
-    <string name="twitter_process_method">
-
-    </string>
+    <string name="twitter_process_method">使用Raven软件，将声音wav文件导入获得最原始的语图，再进行剪切编辑。</string>
     <string name="thank">
-        感谢　肖刚、张煊威　提供技术支持
-        \n同时也感谢黑石顶自然保护区提供的帮助
+        APP策划：	史本云，刘阳 \n
+        APP制作：	肖刚（xiaogangla@qq.com）、张煊威(1120544046@qq.com)\n
+        联系人：	史本云（benyunshi@outlook.com）\n
+        负责成员：	刘阳、黄秦、林鑫、张学聪\n
+        摄影与录音：王英勇、黄秦、赵健、陈凯、金孟洁、李玉龙、王雪婧、梁俏仪、黄恺驰、范忠勇、戴美洁、林剑声、林鑫、张楠、张学聪、曾昭驰以及部分录音来源				www.xeno-canto.org\n
+        测试人员：	王雪婧、张学聪、周扬凯\n
+        责任单位：中山大学生命科学学院鸟类生态与进化研究组(http://www.avian-ecoevol.com)\n
+        感谢广东封开黑石顶省级自然保护区的帮助\n
+        本应用程序制作由国家自然科学基金项目(No. J1210074)赞助\n
     </string>
-    <string name="version">v1.0.0</string>
+    <string name="data_package">数据包</string>
+    <string name="caption_download">下载</string>
+    <string name="caption_not_download">未下载</string>
+    <string name="caption_delete">删除</string>
+    <string name="caption_pause">暂停</string>
+    <string name="caption_download_complete">下载完成</string>
+    <string name="caption_install_data">安装</string>
 
+    <string name="toast_download_success">下载完成</string>
+    <string name="toast_download_error">出错，请尝试重新下载</string>
+    <string name="toast_start_download">已经开始下载数据包,可以切出去做其他的事情，过一会儿再过来看看，通过结束进程来取消下载</string>
+    <string name="caption_cancel">取消</string>
+    <string name="warning">警告</string>
+    <string name="caption_confirm_delete_data_package">确认删除数据包？</string>
+    <string name="confirm">确定</string>
+    <string name="toast_delete_success">数据包删除成功</string>
+    <string name="toast_delete_error">数据包删除时出错</string>
+    <string name="caption_go_to_download">转到数据包下载地址</string>
+    <string name="caption_select_data_package">手动选择数据包位置</string>
+    <string name="caption_package_status">当前状态</string>
+    <string name="status_install_already">数据包已经安装</string>
+    <string name="status_not_install">数据包暂未安装，可以下载后，选择数据包进行安装</string>
+    <string name="prompt_select_data_package">请选择正确的数据包</string>
 
 </resources>

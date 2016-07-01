@@ -204,6 +204,7 @@
 
                     <Button
                         android:id="@+id/twitter_play"
+                        android:paddingBottom="4dp"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="@drawable/ic_play_arrow_black_48dp"/>
@@ -216,6 +217,7 @@
                         <SeekBar
                             android:id="@+id/twitter_seek_bar"
                             android:layout_gravity="center_vertical"
+                            android:paddingTop="8dp"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="6"/>
@@ -261,6 +263,7 @@
 
                         <Button
                             android:id="@+id/twitter2_play"
+                            android:paddingBottom="4dp"
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:background="@drawable/ic_play_arrow_black_48dp"/>
@@ -273,6 +276,7 @@
                             <SeekBar
                                 android:id="@+id/twitter2_seek_bar"
                                 android:layout_gravity="center_vertical"
+                                android:paddingTop="8dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="6"/>

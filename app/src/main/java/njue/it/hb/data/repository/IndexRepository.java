@@ -1,6 +1,5 @@
 package njue.it.hb.data.repository;
 
-import android.database.sqlite.SQLiteCantOpenDatabaseException;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
