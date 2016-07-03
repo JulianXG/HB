@@ -51,12 +51,12 @@ public class PinyinSideBar extends View {
         mContext = context;
         mAttributeSet = attrs;
         mDefineStyle = defStyleAttr;
+        mPaint = new Paint();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mPaint = new Paint();
         setBackgroundColor(WHITE_COLOR);
         mLetterList = Arrays.asList(INDEX_PINYIN);
         int height = getHeight();

@@ -51,24 +51,19 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
 
     private BirdsListContract.Presenter mPresenter;
 
-    private ExpandableListView mBirdOrderListView;
-
-    private TextView mTip;
-
     private FragmentBirdsListBinding mBinding;
 
-    private RelativeLayout mLayoutPinyin;
-
     private DrawerLayout mDrawerLayout;
+
+    private PinyinSortAdapter mPinyinSortAdapter;
+
+    private BirdsOrderListAdapter mOrderListAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_birds_list, container, false);
         mBinding = DataBindingUtil.bind(root);
-        mBirdOrderListView = mBinding.expand;
-        mTip = mBinding.listTip;
-        mLayoutPinyin = mBinding.pinyin;
 
         //为了保证onOptionsItemSelected有效
         setHasOptionsMenu(true);
@@ -101,43 +96,46 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
 
     @Override
     public void showBirdsOrderList(List<Map<String, List<BirdListItem>>> birdList) {
-        mTip.setVisibility(View.GONE);
-        mLayoutPinyin.setVisibility(View.GONE);
-        BirdsOrderListAdapter birdsOrderListAdapter = new BirdsOrderListAdapter(birdList, getContext());
-        mBirdOrderListView.setAdapter(birdsOrderListAdapter);
-        birdsOrderListAdapter.setData(birdList);
-        mBirdOrderListView.setVisibility(View.VISIBLE);
+        if (mOrderListAdapter == null) {
+            mOrderListAdapter = new BirdsOrderListAdapter(birdList, getContext());
+            mOrderListAdapter.setData(birdList);
+            mBinding.orderList.setAdapter(mOrderListAdapter);
+        }
+        mBinding.listTip.setVisibility(View.GONE);
+        mBinding.pinyin.setVisibility(View.GONE);
+        mBinding.orderList.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showBirdsPinyinList(final List<BirdListItem> birdList) {
-        mTip.setVisibility(View.GONE);
-        mBirdOrderListView.setVisibility(View.GONE);
-        mLayoutPinyin.setVisibility(View.VISIBLE);
+        if (mPinyinSortAdapter == null) {
+            mPinyinSortAdapter = new PinyinSortAdapter(getContext(), birdList);
+            mBinding.listPinyin.setAdapter(mPinyinSortAdapter);
+        }
+        mBinding.listTip.setVisibility(View.GONE);
+        mBinding.orderList.setVisibility(View.GONE);
+        mBinding.pinyin.setVisibility(View.VISIBLE);
         PinyinSideBar sideBar = mBinding.sideBar;
-        final ListView pinyinListView = mBinding.listPinyin;
-        final PinyinSortAdapter adapter = new PinyinSortAdapter(getContext(), birdList);
 
         sideBar.setOnTouchingLetterChangedListener(new PinyinSideBar.OnTouchingLetterChangedListener() {
             @Override
             public void onTouchingLetterChanged(int section) {
-                int position = adapter.getPositionForSection(section);
+                int position = mPinyinSortAdapter.getPositionForSection(section);
                 if (position != -1) {
-                    pinyinListView.requestFocusFromTouch();
-                    pinyinListView.setSelection(position);
-                                                                                                                                                                                                                                        Log.i(TAG, "onTouchingLetterChanged: pinyinList setSelection: " + position + "\tpinyin: " + section);
+                    mBinding.listPinyin.requestFocusFromTouch();
+                    mBinding.listPinyin.setSelection(position);
+                    Log.i(TAG, "onTouchingLetterChanged: pinyinList setSelection: " + position + "\tpinyin: " + section);
                 }
             }
         });
 
-        pinyinListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mBinding.listPinyin.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mPresenter.loadBirdDetail(birdList.get(position).cnName.get());
             }
         });
 
-        pinyinListView.setAdapter(adapter);
     }
 
     @Override
@@ -149,9 +147,9 @@ public class BirdsListFragment extends Fragment implements BirdsListContract.Vie
 
     @Override
     public void showImportDataError() {
-        mBirdOrderListView.setVisibility(View.GONE);
-        mLayoutPinyin.setVisibility(View.GONE);
-        mTip.setVisibility(View.VISIBLE);
+        mBinding.orderList.setVisibility(View.GONE);
+        mBinding.listPinyin.setVisibility(View.GONE);
+        mBinding.listTip.setVisibility(View.VISIBLE);
     }
 
     @Override

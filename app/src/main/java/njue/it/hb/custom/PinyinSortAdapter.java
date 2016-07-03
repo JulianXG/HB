@@ -1,31 +1,17 @@
 package njue.it.hb.custom;
 
-import android.app.Activity;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.wang.avi.AVLoadingIndicatorView;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import njue.it.hb.R;
-import njue.it.hb.common.GlobalConstant;
-import njue.it.hb.contract.ImageInThreadContract;
-import njue.it.hb.databinding.ItemBirdsOrderBinding;
 import njue.it.hb.model.BirdListItem;
-import njue.it.hb.presenter.ImageInThreadPresenter;
-import njue.it.hb.util.ImageUtil;
 
 public class PinyinSortAdapter extends BaseAdapter implements SectionIndexer {
 
@@ -33,13 +19,11 @@ public class PinyinSortAdapter extends BaseAdapter implements SectionIndexer {
 
     private Context mContext;
 
-    private ItemBirdsOrderBinding mBinding;
-
     private static final String[] INDEX_PINYIN = {"A", "B", "C", "D", "E", "F", "G","H", "I", "J", "K", "L", "M", "N",
             "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z","#"};
 
     public PinyinSortAdapter(Context context, List<BirdListItem> list) {
-        mContext = ((Activity) context);
+        mContext = context;
         mList = list;
     }
 

@@ -59,7 +59,7 @@
             android:text="@string/tip_import_data_error"/>
 
         <ExpandableListView
-            android:id="@+id/expand"
+            android:id="@+id/order_list"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

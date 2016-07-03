@@ -59,7 +59,7 @@ public class IntroductionFragment extends Fragment implements IntroductionContra
         ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 给左上角图标的左边加上一个返回的图标
 
         mAdapter = new ExpandAdapter(getContext());
-        mBinding.expand.setAdapter(mAdapter);
+        mBinding.orderList.setAdapter(mAdapter);
 
         return root;
     }

@@ -10,7 +10,7 @@ public interface DataPackageDataSource {
     /**
      * 数据包下载地址
      */
-    String DOWNLOAD_URL = "http://ebirdnote.cn/hb/data/data-2016-05-28.zip";
+    String DOWNLOAD_URL = "http://ebirdnote.cn/hb/data";
 
     /**
      * SP文件的名称

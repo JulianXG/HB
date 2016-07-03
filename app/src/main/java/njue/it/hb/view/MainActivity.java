@@ -39,9 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
         mBinding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
-                showFragment(item.getItemId());
-                item.setCheckable(true);
-                mBinding.drawerLayout.closeDrawers();
+                mPresenter.loadMenuSection(mFragmentManager,item.getItemId());
                 return true;
             }
         });
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
      */
     @Override
     public void showDefaultSection() {
-        showFragment(R.id.introduction_nav_menu_item);
+        mPresenter.loadMenuSection(mFragmentManager,R.id.introduction_nav_menu_item);
     }
 
     @Override
@@ -63,42 +61,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityContr
     }
 
     @Override
-    public void setPresenter(MainActivityContract.Presenter Presenter) {
-        mPresenter = Presenter;
+    public void closeDrawer() {
+        mBinding.drawerLayout.closeDrawers();
     }
 
-    private void showFragment(int resId) {
-        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        List<Fragment> fragments = mFragmentManager.getFragments();
-        if (fragments != null) {
-            for (Fragment fragment : fragments) {
-                fragmentTransaction.hide(fragment);
-            }
-        }
-        Fragment fragment = mFragmentManager.findFragmentByTag(String.valueOf(resId));
-        if (fragment != null) {
-            fragmentTransaction.show(fragment);
-        } else {
-            switch (resId) {
-                case R.id.introduction_nav_menu_item:
-                    fragmentTransaction.add(R.id.content, IntroductionFragment.newInstance(), String.valueOf(resId));
-                    break;
-                case R.id.common_birds_list_nav_menu_item:
-                    fragmentTransaction.add(R.id.content, BirdsListFragment.newInstance(), String.valueOf(resId));
-                    break;
-                case R.id.index_nav_menu_item:
-                    fragmentTransaction.add(R.id.content, IndexFragment.newInstance(), String.valueOf(resId));
-                    break;
-                case R.id.about_nav_menu_item:
-                    fragmentTransaction.add(R.id.content, AboutFragment.newInstance(), String.valueOf(resId));
-                    break;
-                case R.id.update_data_menu_item:
-                    fragmentTransaction.add(R.id.content, DataPackageFragment.newInstance(), String.valueOf(resId));
-                    break;
-            }
-        }
-        
-        fragmentTransaction.commit();
+    @Override
+    public void setPresenter(MainActivityContract.Presenter Presenter) {
+        mPresenter = Presenter;
     }
 
 }

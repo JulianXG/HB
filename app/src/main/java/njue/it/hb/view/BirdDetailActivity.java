@@ -303,4 +303,9 @@ public class BirdDetailActivity extends AppCompatActivity implements BirdDetailC
 
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        mPresenter.exit();
+    }
 }

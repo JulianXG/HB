@@ -1,7 +1,5 @@
 package njue.it.hb.presenter;
 
-import android.database.sqlite.SQLiteCantOpenDatabaseException;
-
 import java.util.List;
 
 import njue.it.hb.contract.IndexContract;

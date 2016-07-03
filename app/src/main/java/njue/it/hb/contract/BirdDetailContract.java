@@ -74,6 +74,11 @@ public interface BirdDetailContract {
          * 加载第二幅鸟语图高清
          */
         void loadTwitter2HDOriginalImage();
+
+        /**
+         * 退回上级界面
+         */
+        void exit();
     }
 
     interface View extends BaseView<Presenter> {

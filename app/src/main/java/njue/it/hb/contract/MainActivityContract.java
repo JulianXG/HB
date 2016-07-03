@@ -1,5 +1,7 @@
 package njue.it.hb.contract;
 
+import android.support.v4.app.FragmentManager;
+
 import njue.it.hb.common.BasePresenter;
 import njue.it.hb.common.BaseView;
 
@@ -22,6 +24,11 @@ public interface MainActivityContract {
          */
         void commonRun();
 
+        /**
+         * 加载菜单对应界面
+         */
+        void loadMenuSection(FragmentManager fragmentManager, int resId);
+
     }
 
     interface View extends BaseView<Presenter> {
@@ -35,6 +42,11 @@ public interface MainActivityContract {
          * 显示第一次运行
          */
         void showFirstRun();
+
+        /**
+         * 关闭侧边栏
+         */
+        void closeDrawer();
 
     }
 

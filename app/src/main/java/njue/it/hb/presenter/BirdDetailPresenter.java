@@ -129,6 +129,12 @@ public class BirdDetailPresenter implements BirdDetailContract.Presenter {
         mView.showHDOriginalPicture(list);
     }
 
+    @Override
+    public void exit() {
+        releaseTwitter();
+        mView.backToBirdList();
+    }
+
     class LoadBirdByIdTask extends AsyncTask<Integer,Void,Void> {
 
         @Override
